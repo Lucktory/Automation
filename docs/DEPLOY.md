@@ -111,6 +111,44 @@ producción con un error que no dice eso.
 
 ---
 
+## 5b. Si el build falla
+
+### «Invalid environment configuration: … Invalid url»
+
+Significa que la variable está PUESTA y mal formada, **no que falte**. Un valor
+en blanco se trata como ausente desde `src/config/env.ts`, y todas las variables
+salvo las tres del §2 son opcionales.
+
+La causa habitual es haber pegado el valor **con comillas**. En un archivo `.env`
+las comillas son sintaxis y el intérprete las retira; en el panel de un proveedor
+se guardan como parte del valor, y `"postgresql://…"` entre comillas no es una
+URL válida. `env.ts` ahora quita un par de comillas envolventes, pero conviene no
+ponerlas: pega el valor desnudo.
+
+La otra causa es copiar `.env.example` entero al panel, que arrastra media docena
+de variables vacías. Define sólo las que vas a usar.
+
+### «Failed to collect page data» / «Error occurred prerendering page»
+
+Alguna pantalla intentó consultar la base de datos mientras compilaba. Las 22
+pantallas que leen datos vivos declaran `export const dynamic = "force-dynamic"`
+justamente para que eso no ocurra, así que este error significa que se añadió una
+pantalla nueva con consultas y sin esa línea.
+
+Se comprueba reproduciendo en local la condición del proveedor — un build sin
+ninguna variable de entorno:
+
+```bash
+mv .env.local .env.local.hidden
+npm run build                      # tiene que pasar igualmente
+mv .env.local.hidden .env.local
+```
+
+Si ese build pasa, el del proveedor también. Es la comprobación que conviene
+hacer antes de cada despliegue.
+
+---
+
 ## 6. Comprobación después de desplegar
 
 En este orden, porque cada uno descarta una causa distinta:

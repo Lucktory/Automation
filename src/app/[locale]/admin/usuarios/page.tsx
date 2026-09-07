@@ -9,6 +9,19 @@ import { InvitePanel } from "./InvitePanel";
 import { UsersToolbar } from "./UsersToolbar";
 import { UsersTable, type UserRowView } from "./UsersTable";
 
+/**
+ * Esta pantalla lee datos vivos, asi que se renderiza en cada peticion.
+ *
+ * Sin esto Next la prerenderiza durante el build, lo que tiene dos
+ * consecuencias malas: el despliegue pasa a depender de que la base de datos
+ * responda mientras compila —y un build que la consulta decenas de veces falla
+ * por cualquier corte de red—, y la pagina queda congelada con los precios que
+ * hubiera en ese momento hasta el siguiente despliegue. En un producto cuyo
+ * valor es decir cuanto cuesta algo hoy, un precio cacheado en el build no es
+ * una optimizacion: es una cifra equivocada.
+ */
+export const dynamic = "force-dynamic";
+
 const PAGE_SIZE = 25;
 const MS_PER_DAY = 86_400_000;
 const HOURS_PER_DAY = 24;
