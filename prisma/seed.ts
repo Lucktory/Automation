@@ -421,15 +421,40 @@ async function main() {
   // catálogo llevan semanas sin repasarse, que es exactamente lo que el panel
   // de control debe denunciar en ámbar. Poner todas al día sería más cómodo y
   // menos cierto.
+  // LA MATRIZ TIENE QUE ESTAR COMPLETA.
+  //
+  // Colombia tiene dos puertos de entrada y el simulador deja elegir cualquiera
+  // de los dos para cualquier vehículo, así que las seis rutas de origen por las
+  // dos de destino son doce combinaciones, y las doce se pueden pedir. Con siete
+  // sembradas, elegir Bremerhaven → Buenaventura no daba un precio alto: daba un
+  // error, porque sin tarifa el motor se niega a cotizar antes que asumir un
+  // flete de cero.
+  //
+  // Buenaventura está en el Pacífico y Cartagena en el Caribe, de modo que cada
+  // origen tiene un puerto natural y otro que exige cruzar el Canal de Panamá.
+  // El sobrecosto del Canal es lo que separa las dos cifras de un mismo origen.
+  //
+  // Las cinco rutas que cruzan el Canal se derivan de su par directo aplicando
+  // ese sobrecosto, y por eso van marcadas como lo que son: ESTIMADAS y sin
+  // verificar. El motor las tratará con la misma desconfianza que a las demás
+  // —ninguna tarifa de flete de esta siembra está verificada contra una naviera—
+  // y el panel de control las denunciará en ámbar hasta que alguien las cotice.
   const freightRoutes = [
-    { from: "CNSHA", to: "COBUN", amountUsd: "8190.00", surcharges: "980.00", min: 32, max: 40, verifiedOn: "2026-09-05" },
-    { from: "CNSHA", to: "COCTG", amountUsd: "9400.00", surcharges: "1120.00", min: 38, max: 46, verifiedOn: "2026-09-05" },
-    { from: "USLAX", to: "COBUN", amountUsd: "3100.00", surcharges: "620.00", min: 16, max: 22, verifiedOn: "2026-09-05" },
-    { from: "USNYC", to: "COCTG", amountUsd: "2450.00", surcharges: "540.00", min: 9, max: 14, verifiedOn: "2026-09-05" },
-    { from: "DEBRV", to: "COCTG", amountUsd: "3350.00", surcharges: "700.00", min: 18, max: 24, verifiedOn: "2026-09-05" },
-    // Sin vehículos publicados por estas dos rutas: nadie las ha vuelto a mirar.
-    { from: "AEJEA", to: "COCTG", amountUsd: "5600.00", surcharges: "890.00", min: 30, max: 38, verifiedOn: "2026-08-02" },
-    { from: "CAHAL", to: "COCTG", amountUsd: "2900.00", surcharges: "600.00", min: 12, max: 18, verifiedOn: "2026-07-28" },
+    // Rutas directas, sin Canal.
+    { from: "CNSHA", to: "COBUN", amountUsd: "8190.00", surcharges: "980.00", min: 32, max: 40, verifiedOn: "2026-09-05", note: "Asia–WCSA directo al Pacífico." },
+    { from: "USLAX", to: "COBUN", amountUsd: "3100.00", surcharges: "620.00", min: 16, max: 22, verifiedOn: "2026-09-05", note: "Costa oeste EE.UU. al Pacífico." },
+    { from: "USNYC", to: "COCTG", amountUsd: "2450.00", surcharges: "540.00", min: 9, max: 14, verifiedOn: "2026-09-05", note: "Costa este EE.UU. al Caribe." },
+    { from: "DEBRV", to: "COCTG", amountUsd: "3350.00", surcharges: "700.00", min: 18, max: 24, verifiedOn: "2026-09-05", note: "Norte de Europa al Caribe." },
+    { from: "AEJEA", to: "COCTG", amountUsd: "5600.00", surcharges: "890.00", min: 30, max: 38, verifiedOn: "2026-08-02", note: "Golfo Pérsico vía Suez al Caribe." },
+    { from: "CAHAL", to: "COCTG", amountUsd: "2900.00", surcharges: "600.00", min: 12, max: 18, verifiedOn: "2026-07-28", note: "Costa este de Canadá al Caribe." },
+
+    // Rutas con tránsito por el Canal de Panamá. Derivadas, no cotizadas.
+    { from: "CNSHA", to: "COCTG", amountUsd: "9400.00", surcharges: "1120.00", min: 38, max: 46, verifiedOn: "2026-09-05", note: "Asia al Caribe vía Canal." },
+    { from: "USLAX", to: "COCTG", amountUsd: "3650.00", surcharges: "730.00", min: 23, max: 29, verifiedOn: null, note: "Derivada de USLAX–COBUN más tránsito por el Canal. SIN COTIZAR." },
+    { from: "USNYC", to: "COBUN", amountUsd: "3200.00", surcharges: "690.00", min: 16, max: 22, verifiedOn: null, note: "Derivada de USNYC–COCTG más tránsito por el Canal. SIN COTIZAR." },
+    { from: "DEBRV", to: "COBUN", amountUsd: "4200.00", surcharges: "860.00", min: 25, max: 32, verifiedOn: null, note: "Derivada de DEBRV–COCTG más tránsito por el Canal. SIN COTIZAR." },
+    { from: "AEJEA", to: "COBUN", amountUsd: "6250.00", surcharges: "980.00", min: 35, max: 43, verifiedOn: null, note: "Derivada de AEJEA–COCTG más tránsito por el Canal. SIN COTIZAR." },
+    { from: "CAHAL", to: "COBUN", amountUsd: "3700.00", surcharges: "760.00", min: 19, max: 26, verifiedOn: null, note: "Derivada de CAHAL–COCTG más tránsito por el Canal. SIN COTIZAR." },
   ];
 
   await prisma.freightRate.deleteMany({ where: { parameterSetId: set.id } });
@@ -454,10 +479,17 @@ async function main() {
         // cotización se cuenta desde AQUÍ: sin este sello el motor no sabe si la
         // tarifa está fresca y —correctamente— concede cero días de validez, así
         // que toda cotización nacería vencida.
-        verifiedAt: d(r.verifiedOn),
+        // Una ruta derivada nace SIN verificar, no con la fecha de su par
+        // directo: heredar el sello convertiría una estimación en un dato
+        // comprobado, que es precisamente la mentira que este campo existe para
+        // impedir.
+        verifiedAt: r.verifiedOn === null ? null : d(r.verifiedOn),
         validFrom: d("2026-09-01"),
-        sourceRef: "Referencia de mercado sep-2026. RECOTIZAR ANTES DE COMPROMETER PRECIO.",
-        notes: "Asia–WCSA se multiplicó por 2,5 entre abr y sep de 2026.",
+        sourceRef:
+          r.verifiedOn === null
+            ? "DERIVADA de la ruta directa del mismo origen más el tránsito por el Canal. NO COTIZADA CON NAVIERA."
+            : "Referencia de mercado sep-2026. RECOTIZAR ANTES DE COMPROMETER PRECIO.",
+        notes: r.note,
       },
     });
   }

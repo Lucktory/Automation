@@ -196,7 +196,9 @@
     "parametersChanged": "Los parámetros cambiaron mientras cotizabas. Vuelve a calcular antes de guardar.",
     "noStockForRegion": "Sin unidades disponibles desde este origen",
     "emailing": "Enviando…",
-    "emailed": "Propuesta enviada a {to}"
+    "emailed": "Propuesta enviada a {to}",
+    "noFreightForRoute": "Todavía no tenemos tarifa de flete para la ruta {origin} → {destination}. Elige otro puerto de destino o escríbenos y la cotizamos.",
+    "noTariffForVehicle": "Todavía no tenemos regla arancelaria vigente para este vehículo. Escríbenos y la resolvemos."
   },
   "pdf": {
     "title": "Propuesta de importación",

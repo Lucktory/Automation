@@ -196,7 +196,9 @@
     "parametersChanged": "Parameters changed while you were quoting. Recalculate before saving.",
     "noStockForRegion": "No units available from this origin",
     "emailing": "Sending…",
-    "emailed": "Proposal sent to {to}"
+    "emailed": "Proposal sent to {to}",
+    "noFreightForRoute": "We do not yet have a freight rate for {origin} → {destination}. Pick another destination port, or write to us and we will quote it.",
+    "noTariffForVehicle": "We do not yet have a current tariff rule for this vehicle. Write to us and we will sort it out."
   },
   "pdf": {
     "title": "Import proposal",

@@ -69,7 +69,36 @@ export default async function SimulatorPage({
 
   const vehicle =
     vehicles.find((candidate) => candidate.slug === sp.vehiculo) ?? vehicles[0]!;
-  const port = ports.find((p) => p.unlocode === sp.puerto) ?? destination;
+
+  /**
+   * El puerto por defecto tiene que ser uno que SE PUEDA COTIZAR.
+   *
+   * Antes se tomaba el primer puerto de destino de la lista, sin mirar si había
+   * tarifa desde el origen del vehículo elegido. Con el primer vehículo saliendo
+   * de Bremerhaven y Buenaventura de primer destino, la primera pantalla que veía
+   * un visitante era un error — sin haber tocado nada.
+   *
+   * Cuando el usuario pide un puerto explícitamente se respeta aunque no haya
+   * tarifa: ahí el error es la respuesta correcta a una pregunta concreta. Lo que
+   * no puede pasar es que lo elijamos nosotros y salga mal.
+   */
+  const requested = sp.puerto ? ports.find((p) => p.unlocode === sp.puerto) : undefined;
+
+  const quotableDefault = async () => {
+    if (!vehicle.originPortId) return destination;
+    for (const candidate of ports.filter((p) => p.isDestination)) {
+      const available = await quotingRepositories.freight.modesForRoute(
+        activeSet.id,
+        vehicle.originPortId,
+        candidate.id,
+        now,
+      );
+      if (available.length > 0) return candidate;
+    }
+    return destination;
+  };
+
+  const port = requested ?? (await quotableDefault());
 
   const modes = vehicle.originPortId
     ? await quotingRepositories.freight.modesForRoute(
@@ -95,11 +124,23 @@ export default async function SimulatorPage({
       on: now,
     });
   } catch (error) {
-    if (
-      error instanceof FreightRateNotFoundError ||
-      error instanceof TariffRuleNotFoundError
-    ) {
-      return unavailable(error.message);
+    /**
+     * El mensaje del error nombra identificadores de base de datos, porque en
+     * la capa que lo lanza no hay nada más. A un comprador no se le enseña eso:
+     * se le dice qué ruta no se puede cotizar, con los nombres de los puertos
+     * que él mismo eligió.
+     */
+    if (error instanceof FreightRateNotFoundError) {
+      const origin = ports.find((p) => p.id === error.originPortId);
+      return unavailable(
+        t("simulator.noFreightForRoute", {
+          origin: origin?.name ?? vehicle.originPortId ?? "—",
+          destination: port.name,
+        }),
+      );
+    }
+    if (error instanceof TariffRuleNotFoundError) {
+      return unavailable(t("simulator.noTariffForVehicle"));
     }
     throw error;
   }
