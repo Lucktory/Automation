@@ -1,0 +1,1197 @@
+// =====================================================================
+// AUTOMOCION OS / TOP GEAR - Esquema de datos
+// Postgres 15+ / Prisma 6
+// Convencion: modelos en ingles, terminos legales colombianos en espanol.
+// Dinero: SIEMPRE Decimal. NUNCA Float.
+//   - COP  -> @db.Decimal(18, 2)
+//   - USD  -> @db.Decimal(14, 2)
+//   - tasas/porcentajes -> @db.Decimal(9, 6)  (0.350000 = 35%)
+//   - TRM  -> @db.Decimal(14, 6)
+// =====================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================================
+// 0. ENUMS
+// =====================================================================
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  OPS // logistica / nacionalizacion
+  SALES
+  CONTENT_EDITOR
+  CUSTOMER
+  PARTNER // agente de aduanas, zona franca, taller PPF
+}
+
+enum UserStatus {
+  ACTIVE
+  INVITED
+  SUSPENDED
+  DELETED
+}
+
+enum Currency {
+  USD
+  COP
+  EUR
+  CNY
+  AED
+  CAD
+  KRW
+  JPY
+  GBP
+  MXN
+}
+
+// --- Catalogo ---------------------------------------------------------
+
+enum Powertrain {
+  GASOLINE
+  DIESEL
+  MHEV // hibrido ligero 48V. OJO: la DIAN discute si va a 8703.2x o 8703.40
+  HEV // hibrido no enchufable
+  PHEV // hibrido enchufable
+  BEV // 100% electrico
+  FCEV // celda de combustible
+  CNG // gas natural vehicular
+  LPG
+  FLEX
+}
+
+enum BodyType {
+  SEDAN
+  HATCHBACK
+  SUV
+  CROSSOVER
+  PICKUP
+  VAN
+  MINIVAN
+  COUPE
+  WAGON
+  CONVERTIBLE
+  TRUCK
+}
+
+enum Transmission {
+  MANUAL
+  AUTOMATIC
+  CVT
+  DCT
+  AMT
+  SINGLE_SPEED
+}
+
+enum DriveType {
+  FWD
+  RWD
+  AWD
+  FOUR_WD
+}
+
+enum RangeStandard {
+  WLTP
+  EPA
+  NEDC
+  CLTC
+  MANUFACTURER
+}
+
+enum EmissionStandard {
+  EURO_4
+  EURO_5
+  EURO_6
+  EURO_6D
+  EPA_TIER_3
+  CHINA_6
+  NOT_APPLICABLE // BEV / FCEV
+}
+
+enum VehicleCondition {
+  NEW // 0 km, nunca matriculado
+  DEMO // demo / prueba de ruta, con km
+  USED // usado: importacion ordinaria PROHIBIDA en Colombia
+  CLASSIC_35Y // antiguo/clasico >= 35 anos (Res. 19199/2002 MinTransporte)
+}
+
+enum TitleStatus {
+  MSO // Manufacturer Statement of Origin (unidad nueva, sin matricula previa)
+  CLEAN
+  REBUILT
+  SALVAGE
+  FLOOD
+  LEMON
+  EXPORT_ONLY
+  NO_TITLE
+}
+
+/// Regimen bajo el cual la unidad puede entrar a Colombia.
+/// La importacion ORDINARIA de vehiculos USADOS esta prohibida.
+/// Este enum + Vehicle.eligibilityStatus son el guardrail legal del catalogo.
+enum ImportRegime {
+  ORDINARY_IMPORT // solo NEW / DEMO 0 km
+  FREE_ZONE // ingreso a Zona Franca (NO cura la prohibicion al nacionalizar)
+  TEMPORARY_IMPORT // importacion temporal
+  DIPLOMATIC // franquicia diplomatica
+  CLASSIC_ANTIQUE // clasico >= 35 anos + cert. Automovil Club de Colombia
+  RETURNING_RESIDENT // menaje / retorno (Ley 1565 de 2012)
+  RE_EXPORT // se compra en ZF y se reexporta, nunca entra a TAN
+}
+
+enum EligibilityStatus {
+  ELIGIBLE
+  NEEDS_REVIEW
+  BLOCKED // no cotizable: violaria la prohibicion de importar usados
+}
+
+enum VehicleStatus {
+  DRAFT
+  SOURCING // identificado en subasta/dealer, aun no comprado
+  AVAILABLE // publicable en vitrina
+  RESERVED // con anticipo de un cliente
+  PURCHASED
+  IN_TRANSIT
+  IN_FREE_ZONE
+  NATIONALIZING
+  NATIONALIZED
+  DELIVERED
+  ARCHIVED
+}
+
+// --- Sourcing / scraping ---------------------------------------------
+
+enum SourceType {
+  AUCTION // Manheim, Copart, IAAI, USS
+  DEALER
+  MARKETPLACE // Alibaba, Che168, Mobile.de
+  OEM
+  BROKER
+  MANUAL
+}
+
+enum IngestStrategy {
+  REST_API
+  HTTP_HTML
+  HEADLESS_BROWSER
+  CSV_FEED
+  XML_FEED
+  EMAIL_INBOX
+  MANUAL_UPLOAD
+}
+
+enum RunStatus {
+  QUEUED
+  RUNNING
+  SUCCESS
+  PARTIAL
+  FAILED
+  CANCELLED
+  RATE_LIMITED
+  BLOCKED // captcha / 403 / bloqueo por ToS
+}
+
+enum RawListingStatus {
+  NEW
+  NORMALIZED
+  NEEDS_REVIEW
+  MATCHED // vinculado a un Trim del catalogo
+  PUBLISHED // genero un Vehicle
+  REJECTED
+  DUPLICATE
+  EXPIRED
+}
+
+// --- Motor de liquidacion ---------------------------------------------
+
+enum ParameterSetStatus {
+  DRAFT
+  ACTIVE
+  SUPERSEDED
+  ARCHIVED
+}
+
+enum FxRateKind {
+  TRM_DAILY // TRM publicada por la Superintendencia Financiera
+  TRM_CUSTOMS_WEEK // TRM del ultimo dia habil de la semana anterior (Art. 15 Dto 1165/2019)
+  SPOT_MANUAL // override manual del operador
+  CROSS_RATE // EUR/USD, CNY/USD, etc.
+}
+
+enum FxSource {
+  SUPERFINANCIERA
+  DATOS_GOV_CO
+  BANREP
+  MANUAL
+  ECB
+  OTHER
+}
+
+enum FreightMode {
+  CONTAINER_20
+  CONTAINER_40
+  CONTAINER_40HC
+  RORO
+  LCL
+  FLAT_RACK
+  AIR
+}
+
+enum FreightBasis {
+  PER_CONTAINER
+  PER_VEHICLE
+  PER_CBM
+  PER_TON
+  PER_WM // weight / measure
+}
+
+enum TaxKind {
+  ARANCEL
+  IVA
+  IMPOCONSUMO
+  SALVAGUARDIA
+  ANTIDUMPING
+}
+
+enum TaxBaseKind {
+  FOB
+  CIF // valor en aduana
+  CIF_PLUS_ARANCEL // base de IVA e INC en importacion
+  CIF_PLUS_ARANCEL_PLUS_INC
+  LANDED
+  CUSTOM_FORMULA
+}
+
+enum CostCategory {
+  ORIGIN_ACQUISITION // precio del vehiculo, comision de subasta
+  ORIGIN_INLAND // flete terrestre interno en origen
+  ORIGIN_DOCS // title, export docs, dock fees
+  ORIGIN_EXPORT
+  INTERNATIONAL_FREIGHT
+  INTERNATIONAL_INSURANCE
+  PORT_DESTINATION // gastos portuarios Buenaventura / Cartagena
+  FREE_ZONE // Zona Franca
+  CUSTOMS_BROKER // agenciamiento aduanero
+  VUCE // registro / licencia de importacion
+  ENVIRONMENTAL // ANLA, CEPD, visto bueno Protocolo de Montreal
+  HOMOLOGATION // MinTransporte
+  INSPECTION
+  STORAGE_DEMURRAGE
+  INLAND_DESTINATION
+  FINANCIAL // GMF 4x1000, costo de giro, carta de credito
+  REGISTRATION // matricula, SOAT, placas, RUNT
+  WARRANTY_RESERVE
+  MARGIN
+  DISCOUNT
+  ADDON
+  OTHER
+}
+
+enum CalcMethod {
+  FIXED
+  PER_VEHICLE
+  PER_CONTAINER
+  PER_DAY
+  PER_CBM
+  PERCENT_OF_FOB
+  PERCENT_OF_CIF
+  PERCENT_OF_TAXES
+  PERCENT_OF_LANDED
+  PERCENT_OF_SUBTOTAL
+  TIERED_BY_VALUE
+  FORMULA // expresion evaluada en sandbox, ver DestinationCostRule.formula
+}
+
+enum AllocationMethod {
+  EQUAL_SHARE // partes iguales
+  BY_FOB_VALUE // prorrateo por valor (criterio aduanero por defecto)
+  BY_CBM // por volumen ocupado
+  BY_WEIGHT
+  BY_SLOTS // por cupos del contenedor
+  MANUAL
+}
+
+// --- Cotizacion --------------------------------------------------------
+
+enum QuoteStatus {
+  DRAFT
+  INTERNAL_REVIEW
+  SENT // <-- desde aqui la fila es INMUTABLE
+  VIEWED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  SUPERSEDED
+  CONVERTED
+  CANCELLED
+}
+
+/// Politica cambiaria declarada en la propuesta: define quien asume el riesgo
+/// TRM entre el envio y el pago. Art. 846 C.Co: la oferta comunicada es
+/// IRREVOCABLE durante su plazo.
+enum FxPolicy {
+  FIXED_COP_UNTIL_EXPIRY // precio COP en firme: el importador asume el riesgo
+  BANDED // firme mientras la TRM se mueva dentro de fxToleranceBps
+  INDEXED_AT_PAYMENT // se reliquida con la TRM del dia de pago
+  QUOTED_IN_USD // precio en USD; COP solo informativo
+}
+
+enum LineItemKind {
+  VEHICLE_FOB
+  AUCTION_FEE
+  ORIGIN_INLAND
+  ORIGIN_DOCS
+  INTERNATIONAL_FREIGHT
+  INTERNATIONAL_INSURANCE
+  ARANCEL
+  IVA
+  IMPOCONSUMO
+  PORT_FEE
+  FREE_ZONE_FEE
+  CUSTOMS_BROKER_FEE
+  VUCE_FEE
+  ENVIRONMENTAL_FEE
+  HOMOLOGATION_FEE
+  INSPECTION_FEE
+  STORAGE_FEE
+  INLAND_DESTINATION
+  FINANCIAL_FEE
+  REGISTRATION_FEE
+  ADDON
+  MARGIN
+  DISCOUNT
+  ROUNDING
+  OTHER
+}
+
+// --- Pedido ------------------------------------------------------------
+
+enum OrderStatus {
+  DRAFT
+  AWAITING_DEPOSIT
+  CONFIRMED
+  SOURCING
+  PURCHASED
+  ORIGIN_LOGISTICS
+  BOOKED
+  LOADED
+  IN_TRANSIT
+  ARRIVED_PORT
+  IN_FREE_ZONE
+  NATIONALIZATION
+  RELEASED // levante autorizado
+  DESTINATION_LOGISTICS
+  UPFITTING // PPF, wallbox, accesorios
+  REGISTRATION // matricula RUNT, SOAT, placas
+  READY_FOR_DELIVERY
+  DELIVERED
+  CLOSED
+  ON_HOLD
+  CANCELLED
+  REFUNDED
+}
+
+enum TrafficLight {
+  GREEN
+  AMBER
+  RED
+  GREY // no aplica todavia en esta etapa
+}
+
+enum MilestoneDimension {
+  PHYSICAL
+  DOCUMENTARY
+  FINANCIAL
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  DONE
+  BLOCKED
+  LATE
+  SKIPPED
+}
+
+enum DocumentScope {
+  CUSTOMER
+  ORDER
+  VEHICLE // p.ej. el CEPD de ANLA se emite por VIN
+  CONSOLIDATION // p.ej. el BL es por contenedor
+}
+
+enum DocumentStatus {
+  NOT_STARTED
+  PENDING_UPLOAD
+  UPLOADED
+  IN_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+  WAIVED
+}
+
+enum GpsSource {
+  TELEMATICS
+  CARRIER_API
+  AIS_VESSEL
+  MANUAL
+  GEOFENCE_EVENT
+}
+
+enum PaymentKind {
+  DEPOSIT
+  INSTALLMENT
+  FINAL
+  ADDON
+  ADJUSTMENT
+  REFUND
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+  REVERSED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  WOMPI
+  PAYU
+  MERCADO_PAGO
+  STRIPE
+  BANK_TRANSFER
+  WIRE_USD
+  CASH
+}
+
+// --- CRM / chat --------------------------------------------------------
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  QUOTED
+  NEGOTIATING
+  WON
+  LOST
+  NURTURING
+}
+
+enum LeadSource {
+  WEB_FORM
+  QUOTE_SIMULATOR
+  CHATBOT
+  WHATSAPP
+  INSTAGRAM
+  FACEBOOK
+  TUCARRO
+  CARROYA
+  MARKETPLACE
+  REFERRAL
+  PAID_ADS
+  ORGANIC
+  OTHER
+}
+
+enum ChatChannel {
+  WEB_WIDGET
+  WHATSAPP
+  INSTAGRAM_DM
+  MESSENGER
+  TELEGRAM
+}
+
+enum ChatRole {
+  SYSTEM
+  USER
+  ASSISTANT
+  TOOL
+  HUMAN_AGENT
+}
+
+enum ChatStatus {
+  OPEN
+  BOT_HANDLING
+  ESCALATED
+  CLOSED
+}
+
+// --- CMS / canales -----------------------------------------------------
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ChannelKind {
+  TUCARRO
+  CARROYA
+  MERCADO_LIBRE
+  FACEBOOK_MARKETPLACE
+  INSTAGRAM
+  OLX
+  GOOGLE_VEHICLE_ADS
+  OWN_SITE
+}
+
+enum ChannelListingStatus {
+  DRAFT
+  QUEUED
+  PUBLISHED
+  PAUSED
+  SOLD
+  EXPIRED
+  ERROR
+  DELETED
+}
+
+enum SyncOperation {
+  CREATE
+  UPDATE
+  PRICE_UPDATE
+  STOCK_UPDATE
+  PAUSE
+  DELETE
+  IMPORT_LEADS
+  FETCH_STATUS
+}
+
+enum ActorType {
+  USER
+  SYSTEM
+  CRON
+  WEBHOOK
+  SCRAPER
+  AI_AGENT
+}
+
+enum SocialTemplate {
+  IG_SQUARE_SPEC
+  IG_STORY_PRICE
+  IG_CAROUSEL_GALLERY
+  WA_CATALOG_CARD
+  OG_IMAGE
+}
+
+// =====================================================================
+// 1. AUTENTICACION Y PERSONAS  (Auth.js / NextAuth v5 compatible)
+// =====================================================================
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  emailVerified DateTime?
+  name          String?
+  phone         String? // E.164: +573001234567
+  image         String?
+  passwordHash  String? // null si solo usa OAuth
+  role          Role       @default(CUSTOMER)
+  status        UserStatus @default(ACTIVE)
+  locale        String     @default("es-CO")
+
+  // Datos de facturacion / aduana del cliente colombiano
+  documentType  String? // CC, CE, NIT, PAS
+  documentId    String?
+  fiscalName    String?
+  addressLine   String?
+  city          String?
+  department    String? // departamento
+  countryCode   String  @default("CO")
+
+  // Habeas data (Ley 1581 de 2012 / Dto 1377 de 2013)
+  dataConsentAt      DateTime?
+  dataConsentVersion String?
+  marketingOptIn     Boolean   @default(false)
+
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  accounts          Account[]
+  sessions          Session[]
+  ownedLeads        Lead[]              @relation("LeadOwner")
+  leadRecord        Lead?               @relation("LeadUser")
+  quotesAsCustomer  Quote[]             @relation("QuoteCustomer")
+  quotesCreated     Quote[]             @relation("QuoteCreatedBy")
+  orders            Order[]             @relation("OrderCustomer")
+  ordersManaged     Order[]             @relation("OrderAccountManager")
+  orderEvents       OrderStatusEvent[]
+  documentUploads   DocumentUpload[]    @relation("DocUploader")
+  documentReviews   DocumentUpload[]    @relation("DocReviewer")
+  posts             Post[]
+  auditLogs         AuditLog[]
+  chatConversations ChatConversation[]  @relation("ChatUser")
+  chatAssigned      ChatConversation[]  @relation("ChatAgent")
+  parameterSets     PricingParameterSet[] @relation("ParamSetAuthor")
+  fxOverrides       FxRate[]            @relation("FxOverrideBy")
+  payments          Payment[]           @relation("PaymentRecordedBy")
+
+  @@index([role, status])
+  @@index([documentType, documentId])
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  ip           String?
+  userAgent    String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// =====================================================================
+// 2. GEOGRAFIA Y ACUERDOS COMERCIALES
+// =====================================================================
+
+model Country {
+  code       String  @id @db.Char(2) // ISO 3166-1 alpha-2: US, CN, AE, DE, CA, KR, JP
+  code3      String  @unique @db.Char(3)
+  nameEs     String
+  nameEn     String
+  region     String? // NORTH_AMERICA, ASIA, EUROPE, MIDDLE_EAST
+  isOriginHub Boolean @default(false) // aparece en el selector de origen del cotizador
+  flagEmoji  String?
+  mapLat     Decimal? @db.Decimal(9, 6) // para el Mapa Global Interactivo
+  mapLng     Decimal? @db.Decimal(9, 6)
+
+  ports          Port[]
+  tariffRules    TariffRule[]
+  vehicleOrigins Vehicle[]         @relation("VehicleOriginCountry")
+  brands         Brand[]
+  agreements     TradeAgreementCountry[]
+
+  @@map("countries")
+}
+
+model Port {
+  id          String  @id @default(cuid())
+  unlocode    String  @unique // CNSHA, USLAX, AEJEA, DEBRV, COBUN, COCTG
+  name        String
+  countryCode String  @db.Char(2)
+  isOrigin    Boolean @default(true)
+  isDestination Boolean @default(false)
+  lat         Decimal? @db.Decimal(9, 6)
+  lng         Decimal? @db.Decimal(9, 6)
+  freeDaysDefault Int? // dias libres de almacenamiento antes de demurrage
+  notes       String?
+  active      Boolean @default(true)
+
+  country            Country        @relation(fields: [countryCode], references: [code])
+  freightRatesFrom   FreightRate[]  @relation("FreightOrigin")
+  freightRatesTo     FreightRate[]  @relation("FreightDestination")
+  vehicles           Vehicle[]      @relation("VehicleOriginPort")
+  consolidationsFrom Consolidation[] @relation("ConsolidationOrigin")
+  consolidationsTo   Consolidation[] @relation("ConsolidationDestination")
+
+  @@index([countryCode, isOrigin])
+  @@map("ports")
+}
+
+/// Acuerdo comercial vigente. Determina el arancel preferencial y el
+/// documento de origen exigible (certificado / declaracion de origen).
+model TradeAgreement {
+  id            String    @id @default(cuid())
+  code          String    @unique // TLC_USA, TLC_UE, TLC_COREA, TLC_CANADA, CAN, ACE_33_MEX, ALIANZA_PACIFICO
+  name          String
+  legalBasis    String? // Ley 1143 de 2007, Decreto 730 de 2012, etc.
+  legalUrl      String?
+  inForceFrom   DateTime  @db.Date
+  inForceTo     DateTime? @db.Date
+  originProofRequired Boolean @default(true)
+  originProofType String? // CERTIFICADO_DE_ORIGEN | DECLARACION_DE_ORIGEN | AUTOCERTIFICACION
+  notes         String?
+
+  countries   TradeAgreementCountry[]
+  tariffRules TariffRule[]
+
+  @@map("trade_agreements")
+}
+
+model TradeAgreementCountry {
+  agreementId String
+  countryCode String @db.Char(2)
+
+  agreement TradeAgreement @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  country   Country        @relation(fields: [countryCode], references: [code], onDelete: Cascade)
+
+  @@id([agreementId, countryCode])
+  @@map("trade_agreement_countries")
+}
+
+/// Subpartida arancelaria (NANDINA 8 + 2 digitos nacionales = 10).
+model HsCode {
+  code        String  @id // "8703801000" sin puntos, 10 digitos
+  formatted   String // "8703.80.10.00"
+  description String
+  chapter     String  @db.Char(2) // "87"
+  heading     String  @db.Char(4) // "8703"
+  unitOfMeasure String? // "U"
+  requiresLicense Boolean @default(false)
+  notes       String?
+  verifiedAt  DateTime?
+  verifiedBy  String?
+
+  trims       Trim[]
+  vehicles    Vehicle[]
+  tariffRules TariffRule[]
+
+  @@index([heading])
+  @@map("hs_codes")
+}
+
+// =====================================================================
+// 3. CATALOGO  (Brand -> Model -> Trim -> Vehicle)
+//    Las specs viven en el Trim (dato canonico del fabricante);
+//    el Vehicle solo guarda lo propio de la unidad (VIN, lote, color, km).
+// =====================================================================
+
+model Brand {
+  id           String  @id @default(cuid())
+  slug         String  @unique
+  name         String  @unique
+  logoUrl      String?
+  countryCode  String? @db.Char(2) // pais de la marca (NO es el origen aduanero)
+  description  String? @db.Text
+  displayOrder Int     @default(0)
+  active       Boolean @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  country Country? @relation(fields: [countryCode], references: [code])
+  models  Model[]
+
+  @@index([active, displayOrder])
+  @@map("brands")
+}
+
+model Model {
+  id        String   @id @default(cuid())
+  brandId   String
+  slug      String
+  name      String // "Atto 3", "Model Y", "Corolla Cross"
+  bodyType  BodyType
+  generation String? // "SU2 (2022-)"
+  yearFrom  Int?
+  yearTo    Int?
+  heroImageUrl String?
+  description String? @db.Text
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  brand Brand  @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  trims Trim[]
+
+  @@unique([brandId, slug])
+  @@index([bodyType, active])
+  @@map("models")
+}
+
+/// Version comercial concreta. Es la unidad de homologacion ante MinTransporte
+/// (por eso homologationCostCop se amortiza entre las unidades del mismo Trim).
+model Trim {
+  id           String  @id @default(cuid())
+  modelId      String
+  slug         String
+  name         String // "GT-Line AWD 77.4 kWh"
+  modelYear    Int
+  marketCode   String? // mercado de destino de fabrica: US, EU, CN, GCC
+  hsCodeId     String? // subpartida sugerida por defecto
+  factoryCountryCode String? @db.Char(2) // pais de FABRICACION = origen aduanero real
+  msrpUsd      Decimal? @db.Decimal(14, 2)
+  active       Boolean @default(true)
+
+  // Homologacion: se paga una vez por version y se prorratea entre unidades
+  homologated       Boolean   @default(false)
+  homologationRef   String?
+  homologationAt    DateTime?
+  homologationCostCop Decimal? @db.Decimal(18, 2)
+  homologationUnitsAmortized Int @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  model    Model        @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  hsCode   HsCode?      @relation(fields: [hsCodeId], references: [code])
+  spec     VehicleSpec?
+  vehicles Vehicle[]
+  rawListings RawListing[]
+
+  @@unique([modelId, slug, modelYear])
+  @@index([hsCodeId])
+  @@index([active, modelYear])
+  @@map("trims")
+}
+
+/// LAS 21 DIMENSIONES FILTRABLES DE LA VITRINA.
+/// Relacion 1:1 con Trim. Todos los campos son nullable porque una fuente
+/// scrapeada rara vez trae los 21; completitud se mide con specCompleteness.
+model VehicleSpec {
+  id     String @id @default(cuid())
+  trimId String @unique
+
+  // (1) carroceria  (2) motorizacion  (3) transmision  (4) traccion
+  bodyType     BodyType
+  powertrain   Powertrain
+  transmission Transmission?
+  driveType    DriveType?
+
+  // (5) cilindrada  (6) potencia  (7) torque
+  engineDisplacementCc Int?
+  horsepowerHp         Int?
+  torqueNm             Int?
+
+  // (8) bateria  (9) autonomia  (10) estandar de autonomia
+  batteryKwh    Decimal?       @db.Decimal(6, 2)
+  rangeKm       Int?
+  rangeStandard RangeStandard?
+
+  // (11) carga AC  (12) carga DC  (13) consumo
+  chargeAcKw        Decimal? @db.Decimal(5, 2)
+  chargeDcKw        Decimal? @db.Decimal(6, 2)
+  consumptionKwh100 Decimal? @db.Decimal(5, 2)
+  fuelEconomyKmGal  Decimal? @db.Decimal(5, 2)
+
+  // (14) 0-100  (15) velocidad maxima
+  zeroToHundredS Decimal? @db.Decimal(4, 2)
+  topSpeedKph    Int?
+
+  // (16) plazas  (17) puertas  (18) baul
+  seats      Int?
+  doors      Int?
+  cargoLiters Int?
+
+  // (19) peso  (20) despeje  (21) norma de emisiones
+  curbWeightKg     Int?
+  groundClearanceMm Int?
+  emissionStandard EmissionStandard?
+
+  // Extras no filtrables pero necesarios para la ficha y el flete
+  lengthMm     Int?
+  widthMm      Int?
+  heightMm     Int?
+  wheelbaseMm  Int?
+  cbm          Decimal? @db.Decimal(7, 3) // volumen para prorrateo por CBM
+  towingKg     Int?
+  ncapStars    Int?
+  airbags      Int?
+  warrantyYears Int?
+  batteryWarrantyYears Int?
+  features     Json? // ADAS, infoentretenimiento, etc. (no filtrable, solo ficha)
+
+  specCompleteness Int      @default(0) // 0-100, cuantas de las 21 estan llenas
+  sourceNote       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  trim Trim @relation(fields: [trimId], references: [id], onDelete: Cascade)
+
+  // Indices que soportan los filtros combinados de la vitrina
+  @@index([powertrain, bodyType])
+  @@index([batteryKwh, rangeKm])
+  @@index([horsepowerHp])
+  @@index([seats, doors])
+  @@map("vehicle_specs")
+}
+
+/// Unidad fisica concreta (VIN o lote de subasta).
+/// Los campos denormalizados (brandId..powertrain) existen para que la vitrina
+/// filtre y ordene sin joins; se sincronizan en el service layer al guardar.
+model Vehicle {
+  id     String @id @default(cuid())
+  trimId String
+  slug   String @unique
+
+  vin        String? @unique @db.VarChar(17)
+  lotNumber  String? // numero de lote en subasta
+  stockCode  String? @unique // codigo interno TG-2026-0001
+
+  condition        VehicleCondition @default(NEW)
+  titleStatus      TitleStatus      @default(MSO)
+  importRegime     ImportRegime     @default(ORDINARY_IMPORT)
+  eligibilityStatus EligibilityStatus @default(NEEDS_REVIEW)
+  eligibilityNote  String?          @db.Text // por que quedo BLOCKED / NEEDS_REVIEW
+
+  modelYear    Int
+  mileageKm    Int      @default(0)
+  exteriorColor String?
+  interiorColor String?
+  plateOrigin  String?
+
+  status      VehicleStatus @default(DRAFT)
+  isPublished Boolean       @default(false)
+  publishedAt DateTime?
+  featured    Boolean       @default(false)
+
+  // Origen aduanero y logistico
+  originCountryCode String  @db.Char(2) // pais de FABRICACION (define el TLC aplicable)
+  shipFromCountryCode String? @db.Char(2) // pais desde el que embarca (puede diferir)
+  originPortId      String?
+  hsCodeId          String?
+
+  // Costos de origen (moneda de compra + USD normalizado)
+  purchaseCurrency Currency @default(USD)
+  purchasePrice    Decimal? @db.Decimal(14, 2)
+  fobUsd           Decimal? @db.Decimal(14, 2) // base del umbral FOB del impoconsumo
+  auctionFeeUsd    Decimal? @db.Decimal(14, 2)
+  listPriceUsd     Decimal? @db.Decimal(14, 2) // precio de vitrina en origen
+
+  // Cache del landed cost para ordenar/filtrar la vitrina por precio final.
+  // NO es vinculante: la cifra vinculante vive en Quote.calcSnapshot.
+  estLandedCop     Decimal? @db.Decimal(18, 2)
+  estLandedAt      DateTime?
+  estLandedParamSetId String?
+
+  cbm       Decimal? @db.Decimal(7, 3)
+  weightKg  Int?
+
+  // Denormalizado para la vitrina de 21 filtros
+  brandId    String
+  modelId    String
+  powertrain Powertrain
+  bodyType   BodyType
+
+  sourceId     String?
+  rawListingId String? @unique
+  externalUrl  String?
+  auctionEndsAt DateTime?
+
+  seoTitle       String?
+  seoDescription String? @db.Text
+  descriptionMd  String? @db.Text
+  damageNotes    String? @db.Text
+
+  ownerUserId String? // se llena cuando se entrega al cliente final
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  trim            Trim        @relation(fields: [trimId], references: [id])
+  hsCode          HsCode?     @relation(fields: [hsCodeId], references: [code])
+  originCountry   Country     @relation("VehicleOriginCountry", fields: [originCountryCode], references: [code])
+  originPort      Port?       @relation("VehicleOriginPort", fields: [originPortId], references: [id])
+  source          Source?     @relation(fields: [sourceId], references: [id])
+  rawListing      RawListing? @relation(fields: [rawListingId], references: [id])
+
+  images          VehicleImage[]
+  quoteVehicles   QuoteVehicle[]
+  consolidations  ConsolidationVehicle[]
+  orderItems      OrderItem[]
+  documentUploads DocumentUpload[]
+  gpsPings        GpsPing[]
+  channelListings ChannelListing[]
+  leads           Lead[]
+  socialCards     SocialCardJob[]
+  milestones      TrackingMilestone[]
+
+  @@index([isPublished, status, featured])
+  @@index([brandId, modelId, modelYear])
+  @@index([powertrain, bodyType, isPublished])
+  @@index([originCountryCode, status])
+  @@index([estLandedCop])
+  @@index([eligibilityStatus])
+  @@map("vehicles")
+}
+
+model VehicleImage {
+  id        String  @id @default(cuid())
+  vehicleId String
+  url       String
+  thumbUrl  String?
+  alt       String?
+  width     Int?
+  height    Int?
+  blurhash  String?
+  sortOrder Int     @default(0)
+  isPrimary Boolean @default(false)
+  sourceUrl String? // url original si vino de scraping
+  createdAt DateTime @default(now())
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@index([vehicleId, sortOrder])
+  @@map("vehicle_images")
+}
+
+// =====================================================================
+// 4. SOURCING: fuentes, jobs de scraping y staging
+//    Regla de oro: NADA scrapeado toca el catalogo publico directamente.
+//    Source -> ScrapeJob -> ScrapeRun -> RawListing -> (revision) -> Vehicle
+// =====================================================================
+
+model Source {
+  id          String     @id @default(cuid())
+  code        String     @unique // MANHEIM_US, COPART, ALIBABA, DEALER_DXB_01
+  name        String
+  type        SourceType
+  countryCode String?    @db.Char(2)
+  baseUrl     String?
+  strategy    IngestStrategy @default(MANUAL_UPLOAD)
+
+  // Cumplimiento: no scrapear a ciegas. Manheim/Copart exigen contrato.
+  termsReviewed    Boolean @default(false)
+  termsUrl         String?
+  robotsAllowed    Boolean @default(false)
+  contractRef      String?
+  legalRiskNote    String? @db.Text
+
+  authRef      String? // nombre de la variable de entorno con las credenciales
+  rateLimitRpm Int     @default(20)
+  defaultCurrency Currency @default(USD)
+  trustScore   Int     @default(50) // 0-100, prioriza en el matching de duplicados
+  active       Boolean @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  jobs        ScrapeJob[]
+  rawListings RawListing[]
+  vehicles    Vehicle[]
+
+  @@index([type, active])
+  @@map("sources")
+}
+
+model ScrapeJob {
+  id           String  @id @default(cuid())
+  sourceId     String
+  name         String
+  cron         String? // "0 */6 * * *"
+  enabled      Boolean @default(true)
+  targetUrl    String?
+  searchParams Json? // filtros: marca, ano, precio max
+  selectorMap  Json? // mapa campo -> selector CSS / JSONPath
+  fieldMapping Json? // mapa campo externo -> campo canonico
+  maxPages     Int     @default(5)
+  concurrency  Int     @default(1)
+  lastRunAt    DateTime?
+  nextRunAt    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  source Source      @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  runs   ScrapeRun[]
+
+  @@index([enabled, nextRunAt])
+  @@map("scrape_jobs")
+}
+
+model ScrapeRun {
+  id           String    @id @default(cuid())
+  jobId        String
+  status       RunStatus @default(QUEUED)
+  startedAt    DateTime  @default(now())
+  finishedAt   DateTime?
+  durationMs   Int?
+  pagesFetched Int       @default(0)
+  itemsFound   Int       @default(0)
+  itemsNew     Int       @default(0)
+  itemsUpdated Int       @default(0)
+  itemsFailed  Int       @default(0)
+  httpErrors   Int       @default(0)
+  errorMessage String?   @db.Text
+  logUrl       String?
+  triggeredBy  ActorType @default(CRON)
+
+  job         ScrapeJob    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  rawListings RawListing[]
+
+  @@index([jobId, startedAt])
+  @@index([status, startedAt])
+  @@map("scrape_runs")
+}
+
+/// Staging inmutable: el payload crudo tal como llego. Nunca se edita;
+/// la normalizacion escribe en las columnas normalized* y deja rawPayload intacto.
+model RawListing {
+  id         String @id @default(cuid())
+  sourceId   String
+  runId      String?
+  externalId String // id del lote / anuncio en la fuente
+  url        String?
+
+  rawPayload  Json
+  payloadHash String @db.Char(64) // sha256 para deduplicar y detectar cambios
+
+  // Campos normalizados por el parser
+  normalizedBrand  String?
+  normalizedModel  String?
+  normalizedTrim   String?
+  normalizedYear   Int?
+  normalizedVin    String?
+  normalizedMileageKm Int?
+  normalizedPrice  Decimal?  @db.Decimal(14, 2)
+  normalizedCurrency Currency?
+  normalizedCondition VehicleCondition?
+  normalizedCountry String?  @db.Char(2)
+  imageUrls        String[]
+
+  matchedTrimId String?
+  matchConfidence Decimal? @db.Decimal(5, 4) // 0.0000 - 1.0000
+  status        RawListingStatus @default(NEW)
+  rejectionReason String?
+  reviewedById  String?
+  reviewedAt    DateTime?
+  firstSeenAt   DateTime @default(now())
+  lastSeenAt    DateTime @default(now())
+  expiresAt     DateTime?
+
+  source      Source     @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  run         ScrapeRun? @relation(fields: [runId], references: [id])
+  matchedTrim Trim?      @relation(fields: [matchedTrimId], references: [id])
+  vehicle     Vehicle?
+
+  @@unique([sourceId, externalId])
+  @@index([status, lastSeenAt])
+  @@index([payloadHash])
+  @@index([normalizedVin])
+  @@map("raw_listings")
+}

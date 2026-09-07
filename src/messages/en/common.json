@@ -1,0 +1,74 @@
+{
+  "brand": "Automoción OS",
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "publish": "Publish changes",
+    "newVersion": "New version",
+    "viewHistory": "View history",
+    "addRule": "Add rule",
+    "reset": "Reset",
+    "syncNow": "Sync now",
+    "downloadPdf": "Download PDF proposal",
+    "saveQuote": "Save quote",
+    "sendByEmail": "Send by email",
+    "simulate": "Run a simulation"
+  },
+  "states": {
+    "active": "ACTIVE",
+    "draft": "DRAFT",
+    "expired": "expired",
+    "modified": "modified",
+    "loading": "Loading…",
+    "empty": "No results",
+    "verified": "verified {date}",
+    "staleWarning": "Not verified in over {days} days"
+  },
+  "search": {
+    "placeholder": "Search vehicles, clients, orders…",
+    "inSection": "Search in {section}…"
+  },
+  "pagination": {
+    "page": "Page {page} of {total}",
+    "showing": "Showing {shown} of {total} {unit}"
+  },
+  "language": {
+    "label": "Language",
+    "es": "ES",
+    "en": "EN"
+  },
+  "motorization": {
+    "EV": "Electric",
+    "PHEV": "Plug-in hybrid",
+    "HEV": "Hybrid",
+    "MHEV": "Mild hybrid",
+    "GASOLINE": "Gasoline",
+    "DIESEL": "Diesel"
+  },
+  "country": {
+    "US": "United States",
+    "CN": "China",
+    "AE": "United Arab Emirates",
+    "EU": "European Union",
+    "CA": "Canada",
+    "MX": "Mexico",
+    "KR": "South Korea",
+    "JP": "Japan",
+    "BR": "Brazil",
+    "IN": "India"
+  },
+  "port": {
+    "BUN": "Buenaventura",
+    "CTG": "Cartagena",
+    "SMR": "Santa Marta",
+    "BAQ": "Barranquilla"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "catalog": "Catalog",
+    "howItWorks": "How it works",
+    "globalMap": "Global map",
+    "blog": "Blog",
+    "account": "My account"
+  }
+}

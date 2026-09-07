@@ -1,0 +1,229 @@
+{
+  "home": {
+    "eyebrow": "Importación de vehículos a Colombia",
+    "title": "El costo puesto en Colombia, calculado línea por línea",
+    "subtitle": "Arancel, IVA e impoconsumo se liquidan sobre bases distintas. Nosotros las separamos, las citamos y te mostramos la cifra final antes de que firmes nada.",
+    "ctaPrimary": "Simular mi importación",
+    "ctaSecondary": "Ver catálogo",
+    "stats": {
+      "markets": "Mercados de origen",
+      "transparency": "Líneas de costo detalladas",
+      "timeline": "Días hábiles promedio"
+    },
+    "stepsTitle": "Cómo funciona"
+  },
+  "howItWorks": {
+    "title": "Cómo trabajamos",
+    "subtitle": "Seis etapas, cada una con su plazo y su responsable. Sabes en cuál estás en todo momento.",
+    "steps": {
+      "quote": {
+        "title": "1 · Cotización en firme",
+        "body": "Eliges el vehículo y te entregamos el costo puesto en Colombia con placas, desglosado línea por línea y con la base legal de cada tributo."
+      },
+      "purchase": {
+        "title": "2 · Compra en origen",
+        "body": "Compramos la unidad en subasta, mayorista o concesionario, y la trasladamos al puerto de embarque."
+      },
+      "shipping": {
+        "title": "3 · Navegación",
+        "body": "Contenedor 40' HC compartido entre varias unidades, lo que reparte el flete. Seguro de transporte incluido."
+      },
+      "customs": {
+        "title": "4 · Nacionalización",
+        "body": "Declaración de importación, liquidación de tributos y levante, con nuestra SIA aliada."
+      },
+      "registration": {
+        "title": "5 · Matrícula",
+        "body": "RUNT, placas y SOAT. El vehículo queda listo para rodar legalmente."
+      },
+      "delivery": {
+        "title": "6 · Entrega",
+        "body": "Te entregamos el vehículo con todos sus documentos en la ciudad que elijas."
+      }
+    },
+    "guaranteeTitle": "Lo que garantizamos",
+    "guarantees": {
+      "noSurprise": "El precio de la cotización es el precio. Si un tributo sube después de emitirla, la diferencia la asumimos nosotros dentro de su vigencia.",
+      "traceable": "Cada línea de costo cita su norma. Puedes verificarla tú mismo.",
+      "tracked": "Seguimiento en vivo desde la compra hasta la entrega, con semáforo por etapa."
+    }
+  },
+  "globalMap": {
+    "title": "Mapa global",
+    "subtitle": "Compramos donde el vehículo cuesta menos puesto en Colombia, que no siempre es donde cuesta menos de fábrica.",
+    "marketsTitle": "Mercados de origen",
+    "routesTitle": "Rutas marítimas activas",
+    "columns": {
+      "route": "Ruta",
+      "transit": "Tránsito",
+      "mode": "Modalidad",
+      "note": "Nota"
+    },
+    "days": "{min}–{max} días",
+    "tlcNote": "El país de FABRICACIÓN decide el tratado que aplica, no el puerto de embarque. Un coreano embarcado en Shanghái sigue siendo coreano para el arancel."
+  },
+  "catalog": {
+    "title": "Catálogo",
+    "subtitle": "El precio que ves es el que pagas. Vehículo, flete, tributos, nacionalización y placas — todo dentro.",
+    "empty": "Nada coincide con estos filtros.",
+    "resultCount": "{count} disponibles",
+    "filters": {
+      "title": "Filtrar",
+      "brand": "Marca",
+      "powertrain": "Motorización",
+      "bodyType": "Carrocería",
+      "origin": "Origen",
+      "year": "Año",
+      "price": "Precio",
+      "clear": "Limpiar",
+      "all": "Todas",
+      "allF": "Todas",
+      "allM": "Todos"
+    },
+    "landedLabel": "Puesto en Colombia",
+    "notPriced": "Consultar",
+    "simulate": "Simular",
+    "detail": {
+      "specs": "Ficha técnica",
+      "costTitle": "Cómo se compone este precio",
+      "backToCatalog": "Catálogo",
+      "requestQuote": "Cotizar este vehículo",
+      "notFound": "Este vehículo ya no está disponible."
+    },
+    "sort": {
+      "label": "Ordenar por",
+      "relevant": "Más relevantes",
+      "priceAsc": "Precio: menor a mayor",
+      "priceDesc": "Precio: mayor a menor",
+      "newest": "Más recientes"
+    },
+    "bodyTypes": {
+      "SEDAN": "Sedán",
+      "SUV": "SUV",
+      "CROSSOVER": "Crossover",
+      "HATCHBACK": "Hatchback",
+      "PICKUP": "Pickup",
+      "WAGON": "Familiar",
+      "COUPE": "Coupé",
+      "MINIVAN": "MPV",
+      "VAN": "Furgón",
+      "CONVERTIBLE": "Convertible",
+      "TRUCK": "Camión"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Cómo funciona de verdad importar un vehículo a Colombia, sin letra pequeña.",
+    "empty": "Todavía no hay entradas.",
+    "readMore": "Leer",
+    "minutes": "{minutes} min de lectura",
+    "notFound": "Esta entrada no existe.",
+    "backToBlog": "Volver al blog"
+  },
+  "about": {
+    "title": "Nosotros",
+    "subtitle": "Un equipo de comercio exterior y tecnología, obsesionado con que la cifra final sea la cifra final.",
+    "bodyTitle": "Por qué existimos",
+    "body": "Importar un vehículo a Colombia es caro y opaco. La mayoría de los intermediarios cotiza el precio en origen y deja los tributos «por confirmar», que es donde aparece la sorpresa. Nosotros construimos el cálculo completo antes de que firmes: arancel, IVA e impoconsumo sobre sus bases correctas, flete real de la ruta, costos de puerto, matrícula y placas."
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Cuéntanos qué vehículo buscas y te respondemos con una cifra.",
+    "fields": {
+      "name": "Nombre",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "message": "¿Qué vehículo buscas?"
+    },
+    "submit": "Enviar",
+    "note": "Respondemos en menos de un día hábil.",
+    "sending": "Enviando…",
+    "sent": "Recibido. Te respondemos en menos de un día hábil.",
+    "invalid": "Revisa los campos marcados.",
+    "failed": "No se pudo enviar. Inténtalo de nuevo."
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "subtitle": "Lo que más nos preguntan antes de comprar.",
+    "items": {
+      "q1": {
+        "q": "¿El precio del catálogo incluye los impuestos?",
+        "a": "Sí. El precio que ves es el costo puesto en Colombia con placas: incluye arancel, IVA, impoconsumo cuando aplica, flete, seguro, costos de puerto, nacionalización y matrícula."
+      },
+      "q2": {
+        "q": "¿Cuánto se demora el proceso?",
+        "a": "Entre 60 y 90 días hábiles según el origen. La navegación es la etapa más larga: 22 días desde Los Ángeles y hasta 40 desde Shanghái."
+      },
+      "q3": {
+        "q": "¿Por qué un eléctrico paga menos impuestos?",
+        "a": "Los vehículos eléctricos tienen arancel 0 %, IVA del 5 % y quedan excluidos del impoconsumo. En un vehículo de gasolina esos tres tributos pueden superar el 40 % del valor en aduana."
+      },
+      "q4": {
+        "q": "¿Qué pasa si la TRM cambia?",
+        "a": "La cotización fija la TRM del día y su vigencia. Los tributos se liquidan con la TRM del último día hábil de la semana anterior a la declaración, que es la que exige la norma."
+      },
+      "q5": {
+        "q": "¿Puedo importar un vehículo usado?",
+        "a": "Colombia restringe fuertemente la importación de vehículos usados. Revisamos la elegibilidad de cada unidad antes de ofrecerla y te decimos si está bloqueada."
+      },
+      "q6": {
+        "q": "¿Qué garantía tengo?",
+        "a": "El precio de la cotización se respeta durante su vigencia. Además haces seguimiento en vivo de tu vehículo desde el portal, etapa por etapa."
+      }
+    }
+  },
+  "compare": {
+    "title": "Comparar",
+    "subtitle": "Hasta tres vehículos, lado a lado, comparados por su costo puesto en Colombia.",
+    "empty": "Añade vehículos desde el catálogo para compararlos.",
+    "rows": {
+      "landed": "Puesto en Colombia",
+      "fob": "Valor FOB",
+      "taxes": "Tributos",
+      "origin": "Origen",
+      "powertrain": "Motorización",
+      "year": "Año"
+    }
+  },
+  "checkout": {
+    "title": "Reserva tu importación",
+    "subtitle": "Un depósito asegura la unidad y arranca la compra en origen.",
+    "summary": "Resumen",
+    "addOnsTitle": "Servicios adicionales",
+    "depositLabel": "Depósito para reservar",
+    "balanceLabel": "Saldo al nacionalizar",
+    "payDeposit": "Pagar depósito",
+    "secureNote": "Pago procesado por pasarela certificada. No almacenamos datos de tarjeta.",
+    "addOnsTotal": "Servicios adicionales",
+    "total": "Total",
+    "reserved": "Reserva registrada",
+    "reservedNote": "Te contactamos en menos de un día hábil para confirmar el pago."
+  },
+  "portal": {
+    "title": "Mi importación",
+    "subtitle": "Dónde va tu vehículo, etapa por etapa.",
+    "empty": "Todavía no tienes importaciones en curso.",
+    "stageTitle": "Etapa actual",
+    "documentsTitle": "Documentos",
+    "milestonesTitle": "Hitos",
+    "etaLabel": "Entrega estimada",
+    "lights": {
+      "green": "En tiempo",
+      "amber": "En riesgo",
+      "red": "Detenido",
+      "pending": "Pendiente"
+    }
+  },
+  "footer": {
+    "tagline": "Importación de vehículos a Colombia con el costo puesto en destino calculado línea por línea.",
+    "product": "Producto",
+    "company": "Compañía",
+    "legal": "Legal",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de privacidad",
+    "notice": "Aviso legal",
+    "rights": "Todos los derechos reservados.",
+    "disclaimer": "Las cifras de tributos son estimaciones basadas en las tarifas vigentes a la fecha de esta propuesta. La liquidación definitiva la determina la autoridad aduanera.",
+    "social": "Redes sociales"
+  }
+}

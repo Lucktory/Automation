@@ -1,0 +1,250 @@
+{
+  "landedCost": {
+    "label": "Landed cost in Colombia, registered",
+    "summary": "≈ {usd} · {units, plural, one {# vehicle} other {# vehicles}} per container · from {origin}"
+  },
+  "blocks": {
+    "ORIGIN": "Origin costs",
+    "FREIGHT": "Freight and insurance",
+    "TAX": "Duties and taxes",
+    "DESTINATION": "Nationalization",
+    "ADDON": "Additional services",
+    "COMMERCIAL": "Commercial margin"
+  },
+  "stages": {
+    "ORIGIN": {
+      "PURCHASE": "Purchase price",
+      "AUCTION_FEE": "Auction or dealer fee",
+      "BUYER_FEE": "Buyer fee",
+      "INLAND": "Inland freight",
+      "EXPORT_DOCS": "Export documents"
+    },
+    "FREIGHT": {
+      "OCEAN": "Ocean freight",
+      "SURCHARGES": "Carrier surcharges",
+      "INSURANCE": "Marine insurance",
+      "CIF": "Customs value (CIF)"
+    },
+    "TAX": {
+      "ARANCEL": "Customs duty",
+      "IMPOCONSUMO": "Consumption tax",
+      "IVA": "VAT"
+    },
+    "DESTINATION": {
+      "PORT": "Port charges",
+      "FREE_ZONE": "Free trade zone",
+      "STORAGE": "Storage",
+      "INSPECTION": "Inspection",
+      "PERMITS": "VUCE, ANLA and homologation",
+      "BROKERAGE": "Customs brokerage",
+      "INLAND": "Domestic transport"
+    },
+    "COMMERCIAL": {
+      "MARGIN": "Margin",
+      "SERVICE_FEE": "Service fee",
+      "PAYMENT": "Payment processing",
+      "GMF": "Financial transactions tax"
+    }
+  },
+  "notes": {
+    "FREIGHT": {
+      "OCEAN": "Prorated across the vehicles in the container"
+    },
+    "TAX": {
+      "ARANCEL": "On the customs value (CIF) · Decree 1165/2019 art. 16",
+      "IMPOCONSUMO": "On the total value of the goods, excluding VAT · ET art. 512-3 par. 3",
+      "IVA": "On customs value plus customs duty · ET art. 459"
+    },
+    "DESTINATION": {
+      "BROKERAGE": "Percentage of CIF with a minimum"
+    },
+    "COMMERCIAL": {
+      "PAYMENT": "Charged on the deposit only, never on the full price"
+    }
+  },
+  "proration": {
+    "title": "Container allocation",
+    "method": {
+      "EQUAL": "Equal parts",
+      "BY_CIF_VALUE": "By CIF value",
+      "BY_FOB_VALUE": "By FOB value",
+      "BY_VOLUME": "By volume",
+      "BY_WEIGHT": "By weight",
+      "MANUAL": "Manual"
+    },
+    "columns": {
+      "vehicle": "Vehicle",
+      "cifValue": "CIF value",
+      "share": "Share",
+      "allocated": "Allocated freight"
+    },
+    "residue": "Rounding adjustment",
+    "residueNote": "The residue is assigned so the parts sum exactly.",
+    "total": "Total",
+    "taxableBaseWarning": "The taxable base may only be allocated by FOB value or weight · CAN Resolution 1684 of 2014"
+  },
+  "trm": {
+    "label": "TRM",
+    "badge": "TRM {value} · {date} · {source}",
+    "source": {
+      "AUTO": "automatic",
+      "MANUAL": "manual",
+      "CACHE": "cached"
+    },
+    "commercial": "Commercial TRM (today)",
+    "fiscal": "Fiscal TRM (last business day of the previous week)",
+    "stale": "The TRM has not been updated since {date}"
+  },
+  "timeline": {
+    "title": "Estimated timeline",
+    "total": "≈ {days} business days",
+    "phases": {
+      "PURCHASE": "Purchase",
+      "ORIGIN": "Origin",
+      "OCEAN": "Ocean transit",
+      "PORT": "Port",
+      "NATIONALIZATION": "Nationalization",
+      "REGISTRATION": "Registration"
+    }
+  },
+  "breakdown": {
+    "title": "Detailed breakdown",
+    "waterfallTitle": "Cost composition"
+  },
+  "resolution": {
+    "VALOR": "Verified",
+    "VALOR_CON_ADVERTENCIA": "Estimated · needs confirmation",
+    "NO_COTIZABLE": "Cannot be quoted",
+    "ruleNotFound": "No tariff rule exists for {hsCode} · {origin} · {motorization} on the projected date.",
+    "parameterStale": "Parameter {name} has not been verified since {date}."
+  },
+  "simulator": {
+    "title": "Import simulator",
+    "params": "Parameters",
+    "sections": {
+      "vehicle": "Vehicle",
+      "origin": "Origin",
+      "freight": "Freight and insurance",
+      "consolidation": "Consolidation",
+      "nationalization": "Nationalization",
+      "commercial": "Commercial"
+    },
+    "usingDefaults": "using standard values",
+    "originCountry": "Country of origin",
+    "entryPort": "Port of entry",
+    "purchasePrice": "Purchase price (USD)",
+    "auctionFee": "Auction or dealer fee (USD)",
+    "inlandFreight": "Inland freight (USD)",
+    "exportDocs": "Export documents (USD)",
+    "transportMode": "Transport mode",
+    "containerCost": "Container cost (USD)",
+    "surcharges": "Surcharges (USD)",
+    "insuranceRate": "Insurance rate (% of FOB + freight)",
+    "modified": "modified",
+    "reset": "reset",
+    "unitsPerContainer": "Vehicles per container",
+    "prorationMethod": "Proration method",
+    "marginRate": "Commercial margin (%)",
+    "portDays": "Days at port",
+    "importerIsEndConsumer": "The buyer is the importer of record",
+    "importerHint": "Decides whether consumption tax is triggered at nationalization or at sale.",
+    "hasOriginCertificate": "Has certificate of origin",
+    "certificateHint": "Without it the FTA preferential rate does not apply.",
+    "containerSplit": "Container allocation ({count} vehicles)",
+    "columns": {
+      "index": "#",
+      "vehicle": "Vehicle",
+      "cifUsd": "CIF value (USD)",
+      "cifCop": "CIF value (COP)",
+      "share": "Share %",
+      "allocated": "Allocated freight (USD)"
+    },
+    "residueNote": "The residue is assigned to the last unit so the parts sum exactly.",
+    "actions": {
+      "pdf": "Download PDF proposal",
+      "save": "Save quote",
+      "email": "Send by email"
+    },
+    "savings": "you save {amount}",
+    "notQuotable": "Cannot be quoted firm",
+    "ceiling": "Estimated ceiling {amount}",
+    "recalculating": "Recalculating…",
+    "modifiedCount": "{count} modified",
+    "noRateForMode": "No current rate for this mode on the route",
+    "unitsSummary": "{count} vehicles per container",
+    "fromCountry": "from {country}",
+    "picker": {
+      "change": "Change vehicle",
+      "search": "Search by make, model or country",
+      "empty": "No vehicle matches",
+      "close": "Close"
+    },
+    "regions": {
+      "US": "United States",
+      "CN": "China",
+      "AE": "Dubai",
+      "EU": "Europe",
+      "CA": "Canada"
+    },
+    "modes": {
+      "CONTAINER_40HC": "40' HC container",
+      "RORO": "RORO"
+    },
+    "saving": "Saving…",
+    "saved": "Quote {reference} saved",
+    "saveFailed": "Not saved: {message}",
+    "parametersChanged": "Parameters changed while you were quoting. Recalculate before saving.",
+    "noStockForRegion": "No units available from this origin",
+    "emailing": "Sending…",
+    "emailed": "Proposal sent to {to}"
+  },
+  "pdf": {
+    "title": "Import proposal",
+    "proposalNumber": "Proposal No.",
+    "eyebrow": "IMPORT WITH CONFIDENCE",
+    "subtitle": "An end-to-end, transparent service that puts your vehicle in Colombia with every cost clear from the start.",
+    "imageNote": "Image for reference only. May vary by trim and market.",
+    "timelineHeading": "Estimated process time",
+    "timelineTotal": "Total estimated time: ≈ {days} business days",
+    "days": "{days} days",
+    "validity": "This proposal is valid until {date}.",
+    "validityNote": "Taxes and freight are recalculated using the exchange rate and tariffs in force on the transaction date.",
+    "trmNote": "Applied rate $ {trm} of {date} · Origin: {origin} · {units} vehicles per container",
+    "closing": "From the world to your driveway",
+    "website": "www.automocionos.com",
+    "city": "Bogotá, Colombia",
+    "brandTagline": "Global vehicles. Closer to you.",
+    "pageOf": "Page {page} of {total}",
+    "breakdownSubtitle": "Below is the cost detail for importing the selected vehicle, based on the configured parameters.",
+    "columns": {
+      "concept": "Item",
+      "note": "Calculation basis",
+      "usd": "Value (USD)",
+      "cop": "Value (COP)"
+    },
+    "subtotal": "{block} subtotal",
+    "total": "TOTAL",
+    "notesTitle": "Important notes",
+    "notes": {
+      "one": "Tax figures are estimates based on the rates in force on the date of this proposal.",
+      "two": "The final tax assessment is determined by the customs authority at the time of clearance.",
+      "three": "This quote is not a binding commercial offer. It is subject to vehicle availability, exchange-rate movement and tariff changes."
+    },
+    "trust": {
+      "secure": "Secure, reliable process",
+      "advice": "Guidance at every step",
+      "transparency": "Cost transparency",
+      "support": "Support through delivery"
+    },
+    "specs": {
+      "year": "Year",
+      "powertrain": "Powertrain",
+      "origin": "Origin",
+      "units": "Per container",
+      "hs": "HS code",
+      "range": "Range ({std})",
+      "power": "Power",
+      "seats": "Capacity"
+    }
+  }
+}

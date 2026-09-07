@@ -1,0 +1,614 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "inventory": "Inventory",
+    "parameters": "Parameters",
+    "consolidation": "Consolidation",
+    "quotes": "Quotes",
+    "orders": "Orders",
+    "clients": "Clients",
+    "sources": "Sources",
+    "omnichannel": "Omnichannel",
+    "social": "Social",
+    "blog": "Blog",
+    "users": "Users",
+    "settings": "Settings"
+  },
+  "breadcrumb": {
+    "root": "Home"
+  },
+  "parameters": {
+    "title": "Parameters",
+    "tabs": {
+      "fx": "Currencies",
+      "freight": "Freight",
+      "tariffs": "Duties",
+      "destination": "Destination costs",
+      "addons": "Add-ons",
+      "margins": "Margins"
+    },
+    "version": {
+      "active": "Set v{version} · ACTIVE since {date} · last edited {ago}",
+      "draft": "Set v{version} · DRAFT · {count, plural, one {# unpublished change} other {# unpublished changes}}"
+    },
+    "tariffs": {
+      "title": "Customs duties",
+      "subtitle": "Duty rules by tariff heading, country of origin and motorization.",
+      "columns": {
+        "hsCode": "HS code",
+        "origin": "Country of origin",
+        "motorization": "Motorization",
+        "duty": "Duty %",
+        "vat": "VAT %",
+        "excise": "Excise %",
+        "validFrom": "Valid from",
+        "validTo": "Valid to",
+        "source": "Source"
+      },
+      "unit": "rules",
+      "anyOrigin": "Any",
+      "anyPowertrain": "Any",
+      "expired": "expired",
+      "verifiedOn": "verified {date}",
+      "staleWarning": "Verification overdue",
+      "empty": "This set has no tariff rules.",
+      "showing": "Showing {count} of {total} rules",
+      "pageOf": "Page {page} of {total}"
+    },
+    "impact": {
+      "title": "Simulate impact",
+      "description": "Compare the effect of your changes on a sample vehicle.",
+      "sampleVehicle": "Sample vehicle",
+      "originCountry": "Country of origin",
+      "concept": "Concept",
+      "before": "Before",
+      "after": "After",
+      "variance": "Var.",
+      "total": "Estimated total",
+      "noChange": "—",
+      "noDraft": "Create a draft and edit a rate to see the impact on the final price."
+    },
+    "empty": "There is no active parameter set. Run the seed to create the initial verified set.",
+    "actions": {
+      "history": "View history",
+      "newVersion": "New version",
+      "publish": "Publish changes"
+    },
+    "trm": {
+      "prefix": "TRM",
+      "source": {
+        "AUTO": "automatic",
+        "MANUAL": "manual",
+        "CACHE": "cached"
+      }
+    },
+    "description": "The rules that govern every engine calculation. Publishing changes the price of every new quote.",
+    "count": "{count, plural, one {# rule} other {# rules}}",
+    "common": {
+      "verifiedOn": "verified {date}",
+      "stale": "Verification overdue",
+      "unverified": "Unverified",
+      "any": "Any",
+      "none": "—"
+    },
+    "fx": {
+      "title": "Currencies",
+      "subtitle": "Market representative rate and the validity published by the source.",
+      "columns": {
+        "pair": "Pair",
+        "rate": "Rate",
+        "validFrom": "Valid from",
+        "validTo": "Valid to",
+        "source": "Source",
+        "fetchedAt": "Fetched"
+      },
+      "empty": "No rate has been recorded yet.",
+      "override": "Manual override"
+    },
+    "freight": {
+      "title": "Freight",
+      "subtitle": "Ocean rate per lane and equipment type, with surcharges and transit.",
+      "columns": {
+        "route": "Lane",
+        "mode": "Equipment",
+        "amount": "Freight USD",
+        "surcharges": "Surcharges USD",
+        "transit": "Transit",
+        "perUnit": "Vehicles",
+        "validFrom": "Valid from",
+        "source": "Source"
+      },
+      "empty": "No freight rates in this set.",
+      "days": "{min}–{max} days"
+    },
+    "destination": {
+      "title": "Destination costs",
+      "subtitle": "Port, storage, brokerage and paperwork in Colombia.",
+      "columns": {
+        "code": "Code",
+        "label": "Concept",
+        "category": "Category",
+        "method": "Calculation",
+        "value": "Value",
+        "scope": "Scope",
+        "excise": "Excise base",
+        "source": "Source"
+      },
+      "empty": "No destination costs in this set.",
+      "inExciseBase": "Yes",
+      "notInExciseBase": "No"
+    },
+    "addons": {
+      "title": "Add-ons",
+      "subtitle": "Optional products and services the buyer can add to the order.",
+      "columns": {
+        "code": "Code",
+        "label": "Product",
+        "stage": "Stage",
+        "category": "Category",
+        "price": "Price",
+        "powertrain": "Compatibility",
+        "status": "Status"
+      },
+      "empty": "No add-on products in this set.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "anyPowertrain": "All"
+    },
+    "margins": {
+      "title": "Margins",
+      "subtitle": "Platform commission and financial costs applied to the final price.",
+      "columns": {
+        "code": "Code",
+        "label": "Concept",
+        "method": "Calculation",
+        "value": "Value",
+        "scope": "Applies to"
+      },
+      "empty": "No margin rules in this set.",
+      "depositOnly": "Deposit only",
+      "fullPrice": "Full price"
+    }
+  },
+  "shell": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "users": {
+    "title": "Users",
+    "count": "{count, plural, one {# user} other {# users}}",
+    "invite": "Invite user",
+    "searchPlaceholder": "Search by name or email…",
+    "filterRole": "Role: {value}",
+    "filterStatus": "Status: {value}",
+    "all": "all",
+    "export": "Export",
+    "columns": {
+      "user": "User",
+      "role": "Role",
+      "status": "Status",
+      "lastAccess": "Last access",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "roles": {
+      "SUPERADMIN": "Superadmin",
+      "ADMIN": "Administrator",
+      "OPS": "Operations",
+      "SALES": "Sales",
+      "CONTENT_EDITOR": "Editor",
+      "PARTNER": "Partner",
+      "CUSTOMER": "Customer"
+    },
+    "roleHints": {
+      "SUPERADMIN": "Full control, including managing administrators.",
+      "ADMIN": "Full access to the system and settings.",
+      "OPS": "Manages inventory, orders and nationalization.",
+      "SALES": "Can manage quotes and clients.",
+      "CONTENT_EDITOR": "Edits the blog and site content.",
+      "PARTNER": "Views the orders that concern them.",
+      "CUSTOMER": "Limited access to their own quotes and orders."
+    },
+    "statuses": {
+      "ACTIVE": "Active",
+      "INVITED": "Invited",
+      "SUSPENDED": "Suspended",
+      "DELETED": "Deleted"
+    },
+    "never": "never",
+    "empty": "No users match these filters.",
+    "showing": "Showing {count} of {total}",
+    "pageOf": "Page {page} of {total}",
+    "bulk": {
+      "changeRole": "Change role",
+      "suspend": "Suspend",
+      "clear": "Clear selection",
+      "selectedOne": "1 selected",
+      "selectedMany": "{count} selected",
+      "reactivate": "Reactivate",
+      "rowActions": "Actions"
+    },
+    "invitePanel": {
+      "title": "Invite user",
+      "subtitle": "Send an invitation for this person to join the team.",
+      "email": "Email address",
+      "emailPlaceholder": "name@company.com",
+      "role": "Role",
+      "cancel": "Cancel",
+      "send": "Send invitation",
+      "sent": "Invitation sent to {email}."
+    },
+    "errors": {
+      "ALREADY_EXISTS": "An account with that email already exists.",
+      "SELF_ROLE_CHANGE": "You cannot change your own role. Ask another administrator.",
+      "SELF_SUSPEND": "You cannot suspend your own account.",
+      "LAST_ADMIN": "This change would leave the system with no active administrator.",
+      "INVALID": "Check the details and try again."
+    },
+    "exporting": "Exporting…"
+  },
+  "sections": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Today's state of play: open quotes, shipments in transit and parameter alerts.",
+      "empty": "No activity yet.",
+      "stats": {
+        "quotes": "Open quotes",
+        "pipeline": "Pipeline value",
+        "orders": "Orders in progress",
+        "inventory": "Published vehicles",
+        "leads": "New leads",
+        "staleRates": "Rates to verify"
+      },
+      "recentQuotes": "Recent quotes",
+      "alerts": "Needs attention",
+      "alertStaleFreight": "{count} freight rates not verified in over {days} days.",
+      "alertNoAlerts": "Nothing pending. All up to date.",
+      "funnel": {
+        "title": "Order funnel",
+        "confirmed": "Confirmed",
+        "sourcing": "Purchase at origin",
+        "transit": "In transit",
+        "port": "At port",
+        "customs": "Customs",
+        "registration": "Registration",
+        "delivered": "Delivered"
+      },
+      "quoteColumns": {
+        "reference": "Number",
+        "customer": "Customer",
+        "vehicle": "Vehicle",
+        "total": "Total in COP",
+        "status": "Status"
+      },
+      "alertStuckOrder": "{reference} stuck in {stage} for {days} days.{more, plural, =0 {} other { And # more not moving.}}",
+      "alertExpiring": "{count} quotes expire this week.",
+      "parameterSet": "Parameter set v{version} · published {date}",
+      "viewParameters": "View parameters",
+      "noCustomer": "No customer"
+    },
+    "inventory": {
+      "title": "Inventory",
+      "description": "Catalogue units, their import eligibility and their landed cost in Colombia.",
+      "empty": "No vehicles match.",
+      "search": "Search by make, model or VIN…",
+      "columns": {
+        "vehicle": "Vehicle",
+        "year": "Year",
+        "origin": "Origin",
+        "powertrain": "Powertrain",
+        "fob": "FOB (USD)",
+        "landed": "Landed in Colombia",
+        "eligibility": "Eligibility",
+        "status": "Status"
+      },
+      "eligibility": {
+        "ELIGIBLE": "Eligible",
+        "NEEDS_REVIEW": "Needs review",
+        "BLOCKED": "Blocked"
+      },
+      "notPriced": "Not calculated"
+    },
+    "consolidation": {
+      "title": "Consolidation",
+      "description": "Containers being filled. Sharing a 40' HC across units is what brings the per-vehicle freight down.",
+      "empty": "No containers being filled.",
+      "newContainer": "New container",
+      "columns": {
+        "container": "Container",
+        "route": "Route",
+        "units": "Units",
+        "fill": "Fill",
+        "freight": "Freight per unit",
+        "etd": "Estimated departure",
+        "status": "Status"
+      },
+      "savings": "Each extra unit splits the same freight across more vehicles."
+    },
+    "quotes": {
+      "title": "Quotes",
+      "description": "Every quote stores its own snapshot: it reprints identically even after rates change.",
+      "empty": "No quotes issued yet.",
+      "columns": {
+        "reference": "Number",
+        "customer": "Customer",
+        "vehicle": "Vehicle",
+        "total": "Total",
+        "trm": "Applied TRM",
+        "validUntil": "Valid until",
+        "status": "Status"
+      },
+      "expired": "expired",
+      "openSimulator": "New quote"
+    },
+    "orders": {
+      "title": "Orders",
+      "description": "Live operations, from the initial payment to delivery with plates.",
+      "empty": "No orders in progress.",
+      "columns": {
+        "reference": "Order",
+        "customer": "Customer",
+        "vehicle": "Vehicle",
+        "stage": "Stage",
+        "eta": "Estimated delivery",
+        "total": "Total",
+        "status": "Traffic light"
+      }
+    },
+    "clients": {
+      "title": "Clients",
+      "description": "Buyers and prospects, with their activity and lifetime value.",
+      "empty": "No clients registered.",
+      "search": "Search by name or email…",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "document": "Document",
+        "source": "Source",
+        "quotes": "Quotes",
+        "orders": "Orders",
+        "value": "Lifetime value",
+        "lastActivity": "Last activity",
+        "status": "Status",
+        "since": "Customer since"
+      },
+      "stats": {
+        "clients": "Active customers",
+        "prospects": "Prospects",
+        "value": "Lifetime value",
+        "conversion": "Conversion rate"
+      },
+      "filters": {
+        "all": "All",
+        "clients": "Customers",
+        "prospects": "Prospects",
+        "source": "Source",
+        "allSources": "All"
+      },
+      "sources": {
+        "webForm": "Web form",
+        "simulator": "Simulator",
+        "chatbot": "Chatbot",
+        "whatsapp": "WhatsApp",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tucarro": "TuCarro",
+        "carroya": "CarroYa",
+        "marketplace": "Marketplace",
+        "referral": "Referral",
+        "paidAds": "Paid ads",
+        "organic": "Organic",
+        "other": "Other"
+      },
+      "stage": {
+        "client": "Customer",
+        "prospect": "Prospect",
+        "inactive": "Inactive"
+      },
+      "actions": {
+        "export": "Export CSV",
+        "create": "New customer",
+        "newQuote": "New quote",
+        "sendEmail": "Send email",
+        "rowMenu": "Customer actions",
+        "viewDetail": "View profile"
+      },
+      "panel": {
+        "activity": "Recent activity",
+        "close": "Close profile",
+        "noActivity": "No activity recorded yet."
+      },
+      "activity": {
+        "quoteSent": "Quote {reference} emailed",
+        "quoteViewed": "Quote {reference} viewed",
+        "quoteAccepted": "Quote {reference} accepted",
+        "quoteCreated": "Quote {reference} created",
+        "orderPlaced": "Order {reference} confirmed",
+        "orderMoved": "Order {reference} in {stage}",
+        "leadCreated": "Came in as a prospect via {source}"
+      },
+      "showing": "Showing {shown} of {total} customers",
+      "emptyFiltered": "No customer matches the search.",
+      "clearFilters": "Clear filters"
+    },
+    "sources": {
+      "title": "Sources",
+      "description": "Where inventory comes from: auctions, wholesalers and dealers at origin.",
+      "empty": "No sources configured.",
+      "addSource": "Add source",
+      "columns": {
+        "name": "Source",
+        "country": "Country",
+        "kind": "Type",
+        "listings": "Listings",
+        "lastSync": "Last sync",
+        "status": "Status"
+      },
+      "neverSynced": "Never"
+    },
+    "omnichannel": {
+      "title": "Omnichannel",
+      "description": "One vehicle published across several channels, with each listing's state.",
+      "empty": "No active listings.",
+      "columns": {
+        "channel": "Channel",
+        "listings": "Listings",
+        "views": "Views",
+        "leads": "Leads",
+        "lastPush": "Last push",
+        "status": "Status"
+      },
+      "publishAll": "Publish pending"
+    },
+    "social": {
+      "title": "Social",
+      "description": "Creative assets generated from the vehicle record and its landed cost.",
+      "empty": "No assets generated.",
+      "generate": "Generate assets",
+      "columns": {
+        "asset": "Asset",
+        "vehicle": "Vehicle",
+        "format": "Format",
+        "channel": "Channel",
+        "created": "Created",
+        "status": "Status"
+      },
+      "templates": {
+        "square": "Square spec card",
+        "story": "Story with price",
+        "carousel": "Gallery carousel",
+        "catalog": "Catalog card",
+        "link": "Link preview image"
+      },
+      "stats": {
+        "generated": "Assets generated",
+        "vehicles": "Vehicles with assets",
+        "published": "Published",
+        "unpublished": "Unpublished"
+      },
+      "filterAll": "All",
+      "filterVehicle": "Vehicle",
+      "filterAllVehicles": "All vehicles",
+      "actions": {
+        "download": "Download",
+        "copyLink": "Copy link",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "regenerate": "Regenerate",
+        "delete": "Delete",
+        "copied": "Link copied"
+      },
+      "emptyFiltered": "No results with these filters.",
+      "clearFilters": "Clear filters",
+      "pieceClaim": "Technology. Performance. No borders.",
+      "pieceCta": "Learn more",
+      "landedLabel": "Landed in Colombia",
+      "rowMenu": "Asset actions"
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Content that captures searches about importing a vehicle into Colombia.",
+      "empty": "No posts published.",
+      "newPost": "New post",
+      "columns": {
+        "title": "Title",
+        "author": "Author",
+        "published": "Published",
+        "views": "Views",
+        "status": "Status"
+      },
+      "draft": "Draft"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Company details, which the proposal PDF prints in its footer.",
+      "company": "Company details",
+      "legal": "Legal notices",
+      "fields": {
+        "legalName": "Legal name",
+        "nit": "Tax ID",
+        "address": "Address",
+        "city": "City",
+        "phone": "Phone",
+        "email": "Contact email",
+        "website": "Website",
+        "quoteFooter": "Proposal legal notice"
+      },
+      "savedNote": "Settings are stored in the active parameter set."
+    }
+  },
+  "common": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending",
+      "published": "Published",
+      "draft": "Draft",
+      "sent": "Sent",
+      "accepted": "Accepted",
+      "inTransit": "In transit",
+      "delivered": "Delivered",
+      "onHold": "On hold"
+    },
+    "viewAll": "View all",
+    "filters": "Filters",
+    "export": "Export CSV",
+    "quoteStatus": {
+      "draft": "Draft",
+      "internalReview": "In review",
+      "sent": "Sent",
+      "viewed": "Viewed",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "expired": "Expired",
+      "superseded": "Superseded",
+      "converted": "Converted",
+      "cancelled": "Cancelled"
+    }
+  },
+  "dialog": {
+    "submit": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "saved": "Done. Saved successfully.",
+    "queued": "Done. The task is queued.",
+    "newContainer": {
+      "title": "New container",
+      "description": "Open a container to consolidate several units.",
+      "code": "Container code",
+      "route": "Route",
+      "capacity": "Capacity (units)",
+      "etd": "Estimated departure"
+    },
+    "newSource": {
+      "title": "Add source",
+      "description": "An inventory origin: auction, wholesaler or dealership.",
+      "name": "Name",
+      "country": "Country",
+      "kind": "Type",
+      "url": "URL"
+    },
+    "publishPending": {
+      "title": "Publish pending",
+      "description": "Push queued listings to the channels.",
+      "channel": "Channel",
+      "scope": "Scope"
+    },
+    "generateAssets": {
+      "title": "Generate assets",
+      "description": "Create creative assets from the vehicle record.",
+      "vehicle": "Vehicle",
+      "format": "Format",
+      "channel": "Channel",
+      "locale": "Language"
+    },
+    "newPost": {
+      "title": "New post",
+      "description": "A blog article.",
+      "title_": "Title",
+      "slug": "Slug",
+      "excerpt": "Excerpt"
+    }
+  }
+}

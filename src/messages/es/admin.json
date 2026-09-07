@@ -1,0 +1,614 @@
+{
+  "nav": {
+    "dashboard": "Panel de control",
+    "inventory": "Inventario",
+    "parameters": "Parámetros",
+    "consolidation": "Consolidación",
+    "quotes": "Cotizaciones",
+    "orders": "Pedidos",
+    "clients": "Clientes",
+    "sources": "Fuentes",
+    "omnichannel": "Omnicanal",
+    "social": "Social",
+    "blog": "Blog",
+    "users": "Usuarios",
+    "settings": "Ajustes"
+  },
+  "breadcrumb": {
+    "root": "Inicio"
+  },
+  "parameters": {
+    "title": "Parámetros",
+    "tabs": {
+      "fx": "Divisas",
+      "freight": "Fletes",
+      "tariffs": "Aranceles",
+      "destination": "Costos de destino",
+      "addons": "Agregados",
+      "margins": "Márgenes"
+    },
+    "version": {
+      "active": "Conjunto v{version} · ACTIVO desde el {date} · última edición {ago}",
+      "draft": "Conjunto v{version} · BORRADOR · {count, plural, one {# cambio sin publicar} other {# cambios sin publicar}}"
+    },
+    "tariffs": {
+      "title": "Aranceles",
+      "subtitle": "Reglas de arancel por subpartida, país de origen y motorización.",
+      "columns": {
+        "hsCode": "Subpartida",
+        "origin": "País de origen",
+        "motorization": "Motorización",
+        "duty": "Arancel %",
+        "vat": "IVA %",
+        "excise": "Impoconsumo %",
+        "validFrom": "Vigencia desde",
+        "validTo": "Vigencia hasta",
+        "source": "Fuente"
+      },
+      "unit": "reglas",
+      "anyOrigin": "Cualquiera",
+      "anyPowertrain": "Cualquiera",
+      "expired": "vencida",
+      "verifiedOn": "verificado {date}",
+      "staleWarning": "Verificación vencida",
+      "empty": "No hay reglas arancelarias en este conjunto.",
+      "showing": "Mostrando {count} de {total} reglas",
+      "pageOf": "Página {page} de {total}"
+    },
+    "impact": {
+      "title": "Simular impacto",
+      "description": "Compara el efecto de los cambios en un vehículo de ejemplo.",
+      "sampleVehicle": "Vehículo de ejemplo",
+      "originCountry": "País de origen",
+      "concept": "Concepto",
+      "before": "Antes",
+      "after": "Después",
+      "variance": "Var.",
+      "total": "Total estimado",
+      "noChange": "—",
+      "noDraft": "Crea un borrador y edita una tarifa para ver el impacto en el precio final."
+    },
+    "empty": "No hay un conjunto de parámetros activo. Ejecuta la siembra para crear el conjunto inicial verificado.",
+    "actions": {
+      "history": "Ver historial",
+      "newVersion": "Nueva versión",
+      "publish": "Publicar cambios"
+    },
+    "trm": {
+      "prefix": "TRM",
+      "source": {
+        "AUTO": "automática",
+        "MANUAL": "manual",
+        "CACHE": "en caché"
+      }
+    },
+    "description": "Las reglas que gobiernan cada cálculo del motor. Publicar cambia el precio de toda cotización nueva.",
+    "count": "{count, plural, one {# regla} other {# reglas}}",
+    "common": {
+      "verifiedOn": "verificado {date}",
+      "stale": "Verificación vencida",
+      "unverified": "Sin verificar",
+      "any": "Cualquiera",
+      "none": "—"
+    },
+    "fx": {
+      "title": "Divisas",
+      "subtitle": "Tasa representativa del mercado y su vigencia publicada por la fuente.",
+      "columns": {
+        "pair": "Par",
+        "rate": "Tasa",
+        "validFrom": "Vigente desde",
+        "validTo": "Vigente hasta",
+        "source": "Fuente",
+        "fetchedAt": "Consultada"
+      },
+      "empty": "Todavía no se ha registrado ninguna tasa.",
+      "override": "Override manual"
+    },
+    "freight": {
+      "title": "Fletes",
+      "subtitle": "Tarifa marítima por ruta y tipo de equipo, con sus recargos y tránsito.",
+      "columns": {
+        "route": "Ruta",
+        "mode": "Equipo",
+        "amount": "Flete USD",
+        "surcharges": "Recargos USD",
+        "transit": "Tránsito",
+        "perUnit": "Vehículos",
+        "validFrom": "Vigencia desde",
+        "source": "Fuente"
+      },
+      "empty": "No hay tarifas de flete en este conjunto.",
+      "days": "{min}–{max} días"
+    },
+    "destination": {
+      "title": "Costos de destino",
+      "subtitle": "Puerto, almacenaje, agenciamiento y trámites en Colombia.",
+      "columns": {
+        "code": "Código",
+        "label": "Concepto",
+        "category": "Categoría",
+        "method": "Cálculo",
+        "value": "Valor",
+        "scope": "Alcance",
+        "excise": "Base impoconsumo",
+        "source": "Fuente"
+      },
+      "empty": "No hay costos de destino en este conjunto.",
+      "inExciseBase": "Sí",
+      "notInExciseBase": "No"
+    },
+    "addons": {
+      "title": "Agregados",
+      "subtitle": "Productos y servicios opcionales que el comprador puede sumar al pedido.",
+      "columns": {
+        "code": "Código",
+        "label": "Producto",
+        "stage": "Etapa",
+        "category": "Categoría",
+        "price": "Precio",
+        "powertrain": "Compatibilidad",
+        "status": "Estado"
+      },
+      "empty": "No hay productos agregados en este conjunto.",
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "anyPowertrain": "Todas"
+    },
+    "margins": {
+      "title": "Márgenes",
+      "subtitle": "Comisión de la plataforma y costos financieros aplicados al precio final.",
+      "columns": {
+        "code": "Código",
+        "label": "Concepto",
+        "method": "Cálculo",
+        "value": "Valor",
+        "scope": "Aplica sobre"
+      },
+      "empty": "No hay reglas de margen en este conjunto.",
+      "depositOnly": "Solo el anticipo",
+      "fullPrice": "Precio completo"
+    }
+  },
+  "shell": {
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "users": {
+    "title": "Usuarios",
+    "count": "{count, plural, one {# usuario} other {# usuarios}}",
+    "invite": "Invitar usuario",
+    "searchPlaceholder": "Buscar por nombre o correo…",
+    "filterRole": "Rol: {value}",
+    "filterStatus": "Estado: {value}",
+    "all": "todos",
+    "export": "Exportar",
+    "columns": {
+      "user": "Usuario",
+      "role": "Rol",
+      "status": "Estado",
+      "lastAccess": "Último acceso",
+      "created": "Creado",
+      "actions": "Acciones"
+    },
+    "roles": {
+      "SUPERADMIN": "Superadmin",
+      "ADMIN": "Administrador",
+      "OPS": "Operaciones",
+      "SALES": "Asesor",
+      "CONTENT_EDITOR": "Editor",
+      "PARTNER": "Aliado",
+      "CUSTOMER": "Cliente"
+    },
+    "roleHints": {
+      "SUPERADMIN": "Control total, incluida la gestión de administradores.",
+      "ADMIN": "Acceso total al sistema y configuración.",
+      "OPS": "Gestiona inventario, pedidos y nacionalización.",
+      "SALES": "Puede gestionar cotizaciones y clientes.",
+      "CONTENT_EDITOR": "Edita el blog y el contenido del sitio.",
+      "PARTNER": "Consulta los pedidos que le competen.",
+      "CUSTOMER": "Acceso limitado para consultar sus cotizaciones y pedidos."
+    },
+    "statuses": {
+      "ACTIVE": "Activo",
+      "INVITED": "Invitado",
+      "SUSPENDED": "Suspendido",
+      "DELETED": "Eliminado"
+    },
+    "never": "nunca",
+    "empty": "No hay usuarios que coincidan con estos filtros.",
+    "showing": "Mostrando {count} de {total}",
+    "pageOf": "Página {page} de {total}",
+    "bulk": {
+      "changeRole": "Cambiar rol",
+      "suspend": "Suspender",
+      "clear": "Limpiar selección",
+      "selectedOne": "1 seleccionado",
+      "selectedMany": "{count} seleccionados",
+      "reactivate": "Reactivar",
+      "rowActions": "Acciones"
+    },
+    "invitePanel": {
+      "title": "Invitar usuario",
+      "subtitle": "Envía una invitación para que la persona se una al equipo.",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@empresa.com",
+      "role": "Rol",
+      "cancel": "Cancelar",
+      "send": "Enviar invitación",
+      "sent": "Invitación enviada a {email}."
+    },
+    "errors": {
+      "ALREADY_EXISTS": "Ya existe una cuenta con ese correo.",
+      "SELF_ROLE_CHANGE": "No puedes cambiar tu propio rol. Pídeselo a otro administrador.",
+      "SELF_SUSPEND": "No puedes suspender tu propia cuenta.",
+      "LAST_ADMIN": "El cambio dejaría el sistema sin ningún administrador activo.",
+      "INVALID": "Revisa los datos e inténtalo de nuevo."
+    },
+    "exporting": "Exportando…"
+  },
+  "sections": {
+    "dashboard": {
+      "title": "Panel de control",
+      "description": "Estado del negocio hoy: cotizaciones abiertas, pedidos en tránsito y alertas de parámetros.",
+      "empty": "Todavía no hay actividad.",
+      "stats": {
+        "quotes": "Cotizaciones abiertas",
+        "pipeline": "Valor en negociación",
+        "orders": "Pedidos en curso",
+        "inventory": "Vehículos publicados",
+        "leads": "Prospectos nuevos",
+        "staleRates": "Tarifas por verificar"
+      },
+      "recentQuotes": "Cotizaciones recientes",
+      "alerts": "Requiere atención",
+      "alertStaleFreight": "{count} tarifas de flete sin verificar hace más de {days} días.",
+      "alertNoAlerts": "Nada pendiente. Todo al día.",
+      "funnel": {
+        "title": "Embudo de pedidos",
+        "confirmed": "Confirmado",
+        "sourcing": "Compra en origen",
+        "transit": "En tránsito",
+        "port": "En puerto",
+        "customs": "Nacionalización",
+        "registration": "Matrícula",
+        "delivered": "Entregado"
+      },
+      "quoteColumns": {
+        "reference": "Número",
+        "customer": "Cliente",
+        "vehicle": "Vehículo",
+        "total": "Total en COP",
+        "status": "Estado"
+      },
+      "alertStuckOrder": "{reference} detenido en {stage} hace {days} días.{more, plural, =0 {} other { Y # más sin avanzar.}}",
+      "alertExpiring": "{count} cotizaciones vencen esta semana.",
+      "parameterSet": "Conjunto de parámetros v{version} · publicado el {date}",
+      "viewParameters": "Ver parámetros",
+      "noCustomer": "Sin cliente"
+    },
+    "inventory": {
+      "title": "Inventario",
+      "description": "Las unidades del catálogo, su elegibilidad de importación y su costo puesto en Colombia.",
+      "empty": "No hay vehículos que coincidan.",
+      "search": "Buscar por marca, modelo o VIN…",
+      "columns": {
+        "vehicle": "Vehículo",
+        "year": "Año",
+        "origin": "Origen",
+        "powertrain": "Motorización",
+        "fob": "FOB (USD)",
+        "landed": "Puesto en Colombia",
+        "eligibility": "Elegibilidad",
+        "status": "Estado"
+      },
+      "eligibility": {
+        "ELIGIBLE": "Elegible",
+        "NEEDS_REVIEW": "Por revisar",
+        "BLOCKED": "Bloqueado"
+      },
+      "notPriced": "Sin calcular"
+    },
+    "consolidation": {
+      "title": "Consolidación",
+      "description": "Contenedores en armado. Compartir un 40' HC entre varias unidades es lo que baja el flete por vehículo.",
+      "empty": "No hay contenedores en armado.",
+      "newContainer": "Nuevo contenedor",
+      "columns": {
+        "container": "Contenedor",
+        "route": "Ruta",
+        "units": "Unidades",
+        "fill": "Ocupación",
+        "freight": "Flete por unidad",
+        "etd": "Zarpe estimado",
+        "status": "Estado"
+      },
+      "savings": "Cada unidad adicional reparte el mismo flete entre más vehículos."
+    },
+    "quotes": {
+      "title": "Cotizaciones",
+      "description": "Cada cotización guarda su propia instantánea: se reimprime idéntica aunque las tarifas cambien.",
+      "empty": "Todavía no se ha emitido ninguna cotización.",
+      "columns": {
+        "reference": "Número",
+        "customer": "Cliente",
+        "vehicle": "Vehículo",
+        "total": "Total",
+        "trm": "TRM aplicada",
+        "validUntil": "Vigente hasta",
+        "status": "Estado"
+      },
+      "expired": "vencida",
+      "openSimulator": "Nueva cotización"
+    },
+    "orders": {
+      "title": "Pedidos",
+      "description": "Operaciones en curso, desde el pago inicial hasta la entrega con placas.",
+      "empty": "No hay pedidos en curso.",
+      "columns": {
+        "reference": "Pedido",
+        "customer": "Cliente",
+        "vehicle": "Vehículo",
+        "stage": "Etapa",
+        "eta": "Entrega estimada",
+        "total": "Total",
+        "status": "Semáforo"
+      }
+    },
+    "clients": {
+      "title": "Clientes",
+      "description": "Compradores y prospectos, con su actividad y su valor acumulado.",
+      "empty": "No hay clientes registrados.",
+      "search": "Buscar por nombre o correo…",
+      "columns": {
+        "name": "Nombre",
+        "email": "Correo",
+        "phone": "Teléfono",
+        "document": "Documento",
+        "source": "Origen",
+        "quotes": "Cotizaciones",
+        "orders": "Pedidos",
+        "value": "Valor acumulado",
+        "lastActivity": "Última actividad",
+        "status": "Estado",
+        "since": "Cliente desde"
+      },
+      "stats": {
+        "clients": "Clientes activos",
+        "prospects": "Prospectos",
+        "value": "Valor acumulado",
+        "conversion": "Tasa de conversión"
+      },
+      "filters": {
+        "all": "Todos",
+        "clients": "Clientes",
+        "prospects": "Prospectos",
+        "source": "Origen",
+        "allSources": "Todos"
+      },
+      "sources": {
+        "webForm": "Formulario web",
+        "simulator": "Simulador",
+        "chatbot": "Chatbot",
+        "whatsapp": "WhatsApp",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tucarro": "TuCarro",
+        "carroya": "CarroYa",
+        "marketplace": "Marketplace",
+        "referral": "Referido",
+        "paidAds": "Publicidad",
+        "organic": "Orgánico",
+        "other": "Otro"
+      },
+      "stage": {
+        "client": "Cliente",
+        "prospect": "Prospecto",
+        "inactive": "Inactivo"
+      },
+      "actions": {
+        "export": "Exportar CSV",
+        "create": "Nuevo cliente",
+        "newQuote": "Nueva cotización",
+        "sendEmail": "Enviar correo",
+        "rowMenu": "Acciones del cliente",
+        "viewDetail": "Ver ficha"
+      },
+      "panel": {
+        "activity": "Actividad reciente",
+        "close": "Cerrar ficha",
+        "noActivity": "Todavía no hay actividad registrada."
+      },
+      "activity": {
+        "quoteSent": "Cotización {reference} enviada por correo",
+        "quoteViewed": "Cotización {reference} vista",
+        "quoteAccepted": "Cotización {reference} aceptada",
+        "quoteCreated": "Cotización {reference} creada",
+        "orderPlaced": "Pedido {reference} confirmado",
+        "orderMoved": "Pedido {reference} en {stage}",
+        "leadCreated": "Entró como prospecto por {source}"
+      },
+      "showing": "Mostrando {shown} de {total} clientes",
+      "emptyFiltered": "Ningún cliente coincide con la búsqueda.",
+      "clearFilters": "Quitar filtros"
+    },
+    "sources": {
+      "title": "Fuentes",
+      "description": "De dónde entra el inventario: subastas, mayoristas y concesionarios en origen.",
+      "empty": "No hay fuentes configuradas.",
+      "addSource": "Agregar fuente",
+      "columns": {
+        "name": "Fuente",
+        "country": "País",
+        "kind": "Tipo",
+        "listings": "Anuncios",
+        "lastSync": "Última sincronización",
+        "status": "Estado"
+      },
+      "neverSynced": "Nunca"
+    },
+    "omnichannel": {
+      "title": "Omnicanal",
+      "description": "Un mismo vehículo publicado en varios canales, con el estado de cada publicación.",
+      "empty": "No hay publicaciones activas.",
+      "columns": {
+        "channel": "Canal",
+        "listings": "Publicaciones",
+        "views": "Vistas",
+        "leads": "Prospectos",
+        "lastPush": "Último envío",
+        "status": "Estado"
+      },
+      "publishAll": "Publicar pendientes"
+    },
+    "social": {
+      "title": "Social",
+      "description": "Piezas gráficas generadas a partir de la ficha del vehículo y su costo final.",
+      "empty": "No hay piezas generadas.",
+      "generate": "Generar piezas",
+      "columns": {
+        "asset": "Pieza",
+        "vehicle": "Vehículo",
+        "format": "Formato",
+        "channel": "Canal",
+        "created": "Creada",
+        "status": "Estado"
+      },
+      "templates": {
+        "square": "Ficha cuadrada",
+        "story": "Historia con precio",
+        "carousel": "Carrusel de galería",
+        "catalog": "Tarjeta de catálogo",
+        "link": "Imagen para enlaces"
+      },
+      "stats": {
+        "generated": "Piezas generadas",
+        "vehicles": "Vehículos con piezas",
+        "published": "Publicadas",
+        "unpublished": "Sin publicar"
+      },
+      "filterAll": "Todas",
+      "filterVehicle": "Vehículo",
+      "filterAllVehicles": "Todos los vehículos",
+      "actions": {
+        "download": "Descargar",
+        "copyLink": "Copiar enlace",
+        "publish": "Publicar",
+        "unpublish": "Despublicar",
+        "regenerate": "Regenerar",
+        "delete": "Eliminar",
+        "copied": "Enlace copiado"
+      },
+      "emptyFiltered": "Ningún resultado con estos filtros.",
+      "clearFilters": "Quitar filtros",
+      "pieceClaim": "Tecnología. Desempeño. Sin fronteras.",
+      "pieceCta": "Conoce más",
+      "landedLabel": "Puesto en Colombia",
+      "rowMenu": "Acciones de la pieza"
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Contenido que atrae búsquedas sobre importar un vehículo a Colombia.",
+      "empty": "No hay entradas publicadas.",
+      "newPost": "Nueva entrada",
+      "columns": {
+        "title": "Título",
+        "author": "Autor",
+        "published": "Publicada",
+        "views": "Vistas",
+        "status": "Estado"
+      },
+      "draft": "Borrador"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "description": "Datos de la empresa, que el PDF de propuesta imprime en su pie.",
+      "company": "Datos de la empresa",
+      "legal": "Textos legales",
+      "fields": {
+        "legalName": "Razón social",
+        "nit": "NIT",
+        "address": "Dirección",
+        "city": "Ciudad",
+        "phone": "Teléfono",
+        "email": "Correo de contacto",
+        "website": "Sitio web",
+        "quoteFooter": "Nota legal de la propuesta"
+      },
+      "savedNote": "Los ajustes se guardan en el conjunto de parámetros activo."
+    }
+  },
+  "common": {
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "pending": "Pendiente",
+      "published": "Publicado",
+      "draft": "Borrador",
+      "sent": "Enviada",
+      "accepted": "Aceptada",
+      "inTransit": "En tránsito",
+      "delivered": "Entregado",
+      "onHold": "Detenido"
+    },
+    "viewAll": "Ver todo",
+    "filters": "Filtros",
+    "export": "Exportar CSV",
+    "quoteStatus": {
+      "draft": "Borrador",
+      "internalReview": "En revisión",
+      "sent": "Enviada",
+      "viewed": "Vista",
+      "accepted": "Aceptada",
+      "rejected": "Rechazada",
+      "expired": "Vencida",
+      "superseded": "Reemplazada",
+      "converted": "Convertida",
+      "cancelled": "Anulada"
+    }
+  },
+  "dialog": {
+    "submit": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "saved": "Listo. Se guardó correctamente.",
+    "queued": "Listo. La tarea quedó en cola.",
+    "newContainer": {
+      "title": "Nuevo contenedor",
+      "description": "Abre un contenedor para consolidar varias unidades.",
+      "code": "Código del contenedor",
+      "route": "Ruta",
+      "capacity": "Capacidad (unidades)",
+      "etd": "Zarpe estimado"
+    },
+    "newSource": {
+      "title": "Agregar fuente",
+      "description": "Un origen de inventario: subasta, mayorista o concesionario.",
+      "name": "Nombre",
+      "country": "País",
+      "kind": "Tipo",
+      "url": "URL"
+    },
+    "publishPending": {
+      "title": "Publicar pendientes",
+      "description": "Envía a los canales las publicaciones que están en cola.",
+      "channel": "Canal",
+      "scope": "Alcance"
+    },
+    "generateAssets": {
+      "title": "Generar piezas",
+      "description": "Crea las piezas gráficas a partir de la ficha del vehículo.",
+      "vehicle": "Vehículo",
+      "format": "Formato",
+      "channel": "Canal",
+      "locale": "Idioma"
+    },
+    "newPost": {
+      "title": "Nueva entrada",
+      "description": "Un artículo del blog.",
+      "title_": "Título",
+      "slug": "URL amigable",
+      "excerpt": "Resumen"
+    }
+  }
+}

@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/* ============================================================================
+ * Automoción OS — Design tokens
+ * ----------------------------------------------------------------------------
+ * THE ONLY FILE IN THE CODEBASE WHERE A COLOR VALUE MAY BE WRITTEN.
+ * Components reference semantic tokens (bg-surface, text-secondary…), never hex.
+ * Enforced by Stylelint + a CI grep for hex outside this file.
+ *
+ * Palette A — "Graphite Showroom". Dark is the product default; light exists for
+ * the PDF proposal and for print surfaces.
+ * ========================================================================== */
+
+:root {
+  /* --- Surfaces (the elevation ladder: bg → surface → elevated) -----------
+   * El claro es el TEMA POR DEFECTO del producto. Vive en `:root` y no en un
+   * `[data-theme]` a propósito: el valor por defecto tiene que ser el valor por
+   * defecto, no una excepción que otra regla pisa. El oscuro queda debajo, como
+   * anulación, y sigue completo por si el cliente lo prefiere. */
+  --bg: #ffffff;
+  --surface: #f6f8fa;
+  /* En claro la elevación va HACIA ABAJO, no hacia arriba: el blanco es el
+   * techo, así que una superficie "elevada" se lee como un tinte más marcado,
+   * que es justo como se ve una fila seleccionada o un panel destacado en una
+   * interfaz clara. Si se dejara en blanco, cada estado :hover y cada panel
+   * elevado desaparecería contra la página. */
+  --surface-elevated: #edf1f5;
+  --plate: #e7ecf1; /* fondo neutro detrás de la fotografía del vehículo */
+
+  /* --- Borders ----------------------------------------------------------- */
+  --border: #e4e8ee;
+  --border-strong: #c3ccd7;
+
+  /* --- Text -------------------------------------------------------------- */
+  --text-primary: #0b0d10;
+  --text-secondary: #4a5561;
+  --text-muted: #79838f;
+
+  /* --- Brand ------------------------------------------------------------- */
+  --primary: #1b4fe0;
+  --primary-hover: #1642c4;
+  --primary-fg: #ffffff;
+
+  /* Data emphasis ONLY. Never a button, never clickable.
+   * Más oscuro que en el tema oscuro: el turquesa brillante que funciona sobre
+   * grafito no alcanza contraste suficiente sobre blanco. */
+  --accent: #00897c;
+
+  /* --- Semantic (status only — never decoration) -------------------------
+   * Ajustados para leerse sobre blanco. El ámbar y el verde del tema oscuro se
+   * desvanecen sobre fondo claro, y un estado que no se ve no es un estado. */
+  --success: #0f9067;
+  --warning: #b45309;
+  --danger: #d92d20;
+  --info: #175cd3;
+  --neutral-status: #79838f;
+
+  /* --- Traffic light (portal tracking) ----------------------------------- */
+  --light-green: var(--success);
+  --light-amber: var(--warning);
+  --light-red: var(--danger);
+  --light-pending: var(--neutral-status);
+
+  /* --- Shape -------------------------------------------------------------
+   * OJO con los nombres: NO pueden llamarse `--radius-*`. Tailwind v4 usa ese
+   * mismo espacio de nombres dentro de `@theme inline`, así que
+   * `--radius-card: var(--radius-card)` se referencia a sí mismo, no resuelve a
+   * nada, y TODAS las esquinas salen cuadradas sin un solo error en el build.
+   * Los colores se salvaron por accidente, porque el tema los renombra a
+   * `--color-*`. Estos se llaman `--shape-*` por la misma razón. */
+  /* Cuatro radios, no uno. Un mismo redondeo en cada superficie es lo que hace
+   * que una pantalla parezca generada: todo se lee igual de importante. Aquí la
+   * jerarquía es deliberada — la ficha de producto es casi recta, el control es
+   * suave, y solo la píldora es completamente redonda. */
+  --shape-tile: 0.25rem; /* fichas de catálogo, celdas de datos */
+  --shape-control: 0.5rem;
+  --shape-card: 0.75rem;
+  --shape-modal: 1rem;
+}
+
+/* Tema oscuro — anulación completa. Se activa con data-theme="dark" en <html>. */
+[data-theme="dark"] {
+  --bg: #0b0d10;
+  --surface: #12151a;
+  --surface-elevated: #1a1f26;
+  --plate: #15181d;
+
+  --border: #232a33;
+  --border-strong: #333d49;
+
+  --text-primary: #f2f5f8;
+  --text-secondary: #a3aebb;
+  --text-muted: #6b7684;
+
+  --primary: #2e6bff;
+  --primary-hover: #1e56e6;
+  --primary-fg: #ffffff;
+
+  --accent: #00d0c0;
+
+  --success: #17b26a;
+  --warning: #f79009;
+  --danger: #f04438;
+  --info: #2e90fa;
+  --neutral-status: #6b7684;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-plate: var(--plate);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-neutral-status: var(--neutral-status);
+
+  --radius-tile: var(--shape-tile);
+  --radius-control: var(--shape-control);
+  --radius-card: var(--shape-card);
+  --radius-modal: var(--shape-modal);
+
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Every figure in this product is tabular. Money columns must align. */
+  .tabular,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}

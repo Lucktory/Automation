@@ -1,0 +1,74 @@
+{
+  "brand": "Automoción OS",
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "publish": "Publicar cambios",
+    "newVersion": "Nueva versión",
+    "viewHistory": "Ver historial",
+    "addRule": "Agregar regla",
+    "reset": "Restablecer",
+    "syncNow": "Sincronizar ahora",
+    "downloadPdf": "Descargar propuesta PDF",
+    "saveQuote": "Guardar cotización",
+    "sendByEmail": "Enviar por correo",
+    "simulate": "Simular importación"
+  },
+  "states": {
+    "active": "ACTIVO",
+    "draft": "BORRADOR",
+    "expired": "vencida",
+    "modified": "modificado",
+    "loading": "Cargando…",
+    "empty": "Sin resultados",
+    "verified": "verificado {date}",
+    "staleWarning": "Sin verificar hace más de {days} días"
+  },
+  "search": {
+    "placeholder": "Buscar vehículos, clientes, pedidos…",
+    "inSection": "Buscar en {section}…"
+  },
+  "pagination": {
+    "page": "Página {page} de {total}",
+    "showing": "Mostrando {shown} de {total} {unit}"
+  },
+  "language": {
+    "label": "Idioma",
+    "es": "ES",
+    "en": "EN"
+  },
+  "motorization": {
+    "EV": "Eléctrico",
+    "PHEV": "Híbrido enchufable",
+    "HEV": "Híbrido",
+    "MHEV": "Híbrido ligero",
+    "GASOLINE": "Gasolina",
+    "DIESEL": "Diésel"
+  },
+  "country": {
+    "US": "Estados Unidos",
+    "CN": "China",
+    "AE": "Emiratos Árabes",
+    "EU": "Unión Europea",
+    "CA": "Canadá",
+    "MX": "México",
+    "KR": "Corea del Sur",
+    "JP": "Japón",
+    "BR": "Brasil",
+    "IN": "India"
+  },
+  "port": {
+    "BUN": "Buenaventura",
+    "CTG": "Cartagena",
+    "SMR": "Santa Marta",
+    "BAQ": "Barranquilla"
+  },
+  "nav": {
+    "label": "Navegación principal",
+    "catalog": "Catálogo",
+    "howItWorks": "Cómo trabajamos",
+    "globalMap": "Mapa global",
+    "blog": "Blog",
+    "account": "Mi cuenta"
+  }
+}

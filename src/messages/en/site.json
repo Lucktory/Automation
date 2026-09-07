@@ -1,0 +1,229 @@
+{
+  "home": {
+    "eyebrow": "Vehicle importing into Colombia",
+    "title": "The landed cost in Colombia, calculated line by line",
+    "subtitle": "Duty, VAT and excise are assessed on different bases. We separate them, cite them, and show you the final figure before you commit to anything.",
+    "ctaPrimary": "Run my simulation",
+    "ctaSecondary": "Browse the catalogue",
+    "stats": {
+      "markets": "Sourcing markets",
+      "transparency": "Itemised cost lines",
+      "timeline": "Average business days"
+    },
+    "stepsTitle": "How it works"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Six stages, each with its own timeline and owner. You always know which one you are in.",
+    "steps": {
+      "quote": {
+        "title": "1 · Firm quote",
+        "body": "You pick the vehicle and we hand you the landed cost with plates, itemised line by line with the legal basis of every tax."
+      },
+      "purchase": {
+        "title": "2 · Purchase at origin",
+        "body": "We buy the unit at auction, wholesale or dealership and move it to the port of loading."
+      },
+      "shipping": {
+        "title": "3 · Ocean transit",
+        "body": "A 40' HC container shared across several units, which splits the freight. Marine insurance included."
+      },
+      "customs": {
+        "title": "4 · Customs clearance",
+        "body": "Import declaration, tax assessment and release, handled with our customs broker."
+      },
+      "registration": {
+        "title": "5 · Registration",
+        "body": "RUNT registration, plates and mandatory insurance. The vehicle is road legal."
+      },
+      "delivery": {
+        "title": "6 · Delivery",
+        "body": "We deliver the vehicle with its full documentation in the city you choose."
+      }
+    },
+    "guaranteeTitle": "What we guarantee",
+    "guarantees": {
+      "noSurprise": "The quoted price is the price. If a tax rises after we issue it, we absorb the difference within its validity period.",
+      "traceable": "Every cost line cites its regulation. You can verify it yourself.",
+      "tracked": "Live tracking from purchase to delivery, with a traffic light per stage."
+    }
+  },
+  "globalMap": {
+    "title": "Global map",
+    "subtitle": "We buy where the vehicle costs least landed in Colombia, which is not always where it costs least ex-works.",
+    "marketsTitle": "Sourcing markets",
+    "routesTitle": "Active ocean routes",
+    "columns": {
+      "route": "Route",
+      "transit": "Transit",
+      "mode": "Mode",
+      "note": "Note"
+    },
+    "days": "{min}–{max} days",
+    "tlcNote": "The country of MANUFACTURE decides which trade agreement applies, not the port of loading. A Korean car shipped from Shanghai is still Korean for duty purposes."
+  },
+  "catalog": {
+    "title": "Catalogue",
+    "subtitle": "The price you see is the price you pay. Vehicle, freight, taxes, clearance and plates — all in.",
+    "empty": "Nothing matches these filters.",
+    "resultCount": "{count} available",
+    "filters": {
+      "title": "Filter",
+      "brand": "Make",
+      "powertrain": "Powertrain",
+      "bodyType": "Body",
+      "origin": "Origin",
+      "year": "Year",
+      "price": "Price",
+      "clear": "Clear",
+      "all": "All",
+      "allF": "All",
+      "allM": "All"
+    },
+    "landedLabel": "Landed in Colombia",
+    "notPriced": "On request",
+    "simulate": "Simulate",
+    "detail": {
+      "specs": "Specifications",
+      "costTitle": "How this price breaks down",
+      "backToCatalog": "Catalogue",
+      "requestQuote": "Quote this vehicle",
+      "notFound": "This vehicle is no longer available."
+    },
+    "sort": {
+      "label": "Sort by",
+      "relevant": "Most relevant",
+      "priceAsc": "Price: low to high",
+      "priceDesc": "Price: high to low",
+      "newest": "Newest"
+    },
+    "bodyTypes": {
+      "SEDAN": "Sedan",
+      "SUV": "SUV",
+      "CROSSOVER": "Crossover",
+      "HATCHBACK": "Hatchback",
+      "PICKUP": "Pickup",
+      "WAGON": "Wagon",
+      "COUPE": "Coupe",
+      "MINIVAN": "MPV",
+      "VAN": "Van",
+      "CONVERTIBLE": "Convertible",
+      "TRUCK": "Truck"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "How importing a vehicle into Colombia actually works, without the fine print.",
+    "empty": "No posts yet.",
+    "readMore": "Read",
+    "minutes": "{minutes} min read",
+    "notFound": "This post does not exist.",
+    "backToBlog": "Back to the blog"
+  },
+  "about": {
+    "title": "About us",
+    "subtitle": "A foreign-trade and technology team, obsessed with making the final figure the final figure.",
+    "bodyTitle": "Why we exist",
+    "body": "Importing a vehicle into Colombia is expensive and opaque. Most intermediaries quote the price at origin and leave the taxes “to be confirmed”, which is exactly where the surprise appears. We build the full calculation before you sign: duty, VAT and excise on their correct bases, the real freight for the route, port costs, registration and plates."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Tell us which vehicle you are after and we will come back with a figure.",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Which vehicle are you looking for?"
+    },
+    "submit": "Send",
+    "note": "We reply within one business day.",
+    "sending": "Sending…",
+    "sent": "Received. We reply within one business day.",
+    "invalid": "Check the highlighted fields.",
+    "failed": "Could not send. Please try again."
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "What people ask us most before buying.",
+    "items": {
+      "q1": {
+        "q": "Does the catalogue price include taxes?",
+        "a": "Yes. The price you see is the landed cost in Colombia with plates: it includes duty, VAT, excise where applicable, freight, insurance, port costs, customs clearance and registration."
+      },
+      "q2": {
+        "q": "How long does the process take?",
+        "a": "Between 60 and 90 business days depending on origin. Ocean transit is the longest stage: 22 days from Los Angeles and up to 40 from Shanghai."
+      },
+      "q3": {
+        "q": "Why does an electric vehicle pay less tax?",
+        "a": "Electric vehicles carry 0 % duty, 5 % VAT and are excluded from excise tax. On a petrol vehicle those three taxes can exceed 40 % of the customs value."
+      },
+      "q4": {
+        "q": "What happens if the exchange rate moves?",
+        "a": "The quote fixes that day's rate and its validity window. Taxes are assessed using the rate of the last business day of the week before the declaration, as the regulation requires."
+      },
+      "q5": {
+        "q": "Can I import a used vehicle?",
+        "a": "Colombia heavily restricts used-vehicle imports. We check each unit's eligibility before offering it and tell you if it is blocked."
+      },
+      "q6": {
+        "q": "What guarantee do I get?",
+        "a": "The quoted price holds for its validity period. You also track your vehicle live from the portal, stage by stage."
+      }
+    }
+  },
+  "compare": {
+    "title": "Compare",
+    "subtitle": "Up to three vehicles side by side, compared on their landed cost in Colombia.",
+    "empty": "Add vehicles from the catalogue to compare them.",
+    "rows": {
+      "landed": "Landed in Colombia",
+      "fob": "FOB value",
+      "taxes": "Taxes",
+      "origin": "Origin",
+      "powertrain": "Powertrain",
+      "year": "Year"
+    }
+  },
+  "checkout": {
+    "title": "Reserve your import",
+    "subtitle": "A deposit secures the unit and starts the purchase at origin.",
+    "summary": "Summary",
+    "addOnsTitle": "Optional services",
+    "depositLabel": "Deposit to reserve",
+    "balanceLabel": "Balance on clearance",
+    "payDeposit": "Pay deposit",
+    "secureNote": "Payment processed by a certified gateway. We do not store card details.",
+    "addOnsTotal": "Optional services",
+    "total": "Total",
+    "reserved": "Reservation recorded",
+    "reservedNote": "We will contact you within one business day to confirm payment."
+  },
+  "portal": {
+    "title": "My import",
+    "subtitle": "Where your vehicle is, stage by stage.",
+    "empty": "You have no imports in progress yet.",
+    "stageTitle": "Current stage",
+    "documentsTitle": "Documents",
+    "milestonesTitle": "Milestones",
+    "etaLabel": "Estimated delivery",
+    "lights": {
+      "green": "On track",
+      "amber": "At risk",
+      "red": "Blocked",
+      "pending": "Pending"
+    }
+  },
+  "footer": {
+    "tagline": "Vehicle importing into Colombia with the landed cost calculated line by line.",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy policy",
+    "notice": "Legal notice",
+    "rights": "All rights reserved.",
+    "disclaimer": "Tax figures are estimates based on the rates in force on the date of this proposal. The final assessment is determined by the customs authority.",
+    "social": "Social media"
+  }
+}

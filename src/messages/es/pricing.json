@@ -1,0 +1,250 @@
+{
+  "landedCost": {
+    "label": "Costo puesto en Colombia, con placas",
+    "summary": "≈ {usd} · {units, plural, one {# vehículo} other {# vehículos}} por contenedor · desde {origin}"
+  },
+  "blocks": {
+    "ORIGIN": "Costos de origen",
+    "FREIGHT": "Flete y seguro",
+    "TAX": "Tributos",
+    "DESTINATION": "Nacionalización",
+    "ADDON": "Servicios adicionales",
+    "COMMERCIAL": "Margen comercial"
+  },
+  "stages": {
+    "ORIGIN": {
+      "PURCHASE": "Precio de compra",
+      "AUCTION_FEE": "Comisión de subasta o dealer",
+      "BUYER_FEE": "Comisión de compra",
+      "INLAND": "Flete terrestre interno",
+      "EXPORT_DOCS": "Documentos de exportación"
+    },
+    "FREIGHT": {
+      "OCEAN": "Flete marítimo",
+      "SURCHARGES": "Recargos navieros",
+      "INSURANCE": "Seguro de transporte",
+      "CIF": "Valor en aduana (CIF)"
+    },
+    "TAX": {
+      "ARANCEL": "Arancel",
+      "IMPOCONSUMO": "Impoconsumo",
+      "IVA": "IVA"
+    },
+    "DESTINATION": {
+      "PORT": "Gastos portuarios",
+      "FREE_ZONE": "Zona Franca",
+      "STORAGE": "Bodegaje",
+      "INSPECTION": "Inspección",
+      "PERMITS": "VUCE, ANLA y homologación",
+      "BROKERAGE": "Agenciamiento aduanero",
+      "INLAND": "Transporte interno"
+    },
+    "COMMERCIAL": {
+      "MARGIN": "Margen",
+      "SERVICE_FEE": "Fee de servicio",
+      "PAYMENT": "Costos de pasarela",
+      "GMF": "Gravamen a los movimientos financieros"
+    }
+  },
+  "notes": {
+    "FREIGHT": {
+      "OCEAN": "Prorrateado entre los vehículos del contenedor"
+    },
+    "TAX": {
+      "ARANCEL": "Sobre el valor en aduana (CIF) · Dto 1165/2019 art. 16",
+      "IMPOCONSUMO": "Sobre el valor total del bien, sin incluir el IVA · ET art. 512-3 par. 3",
+      "IVA": "Sobre el valor en aduana más el arancel · ET art. 459"
+    },
+    "DESTINATION": {
+      "BROKERAGE": "Porcentaje sobre CIF con mínimo"
+    },
+    "COMMERCIAL": {
+      "PAYMENT": "Calculado solo sobre el anticipo, no sobre el precio total"
+    }
+  },
+  "proration": {
+    "title": "Reparto del contenedor",
+    "method": {
+      "EQUAL": "Partes iguales",
+      "BY_CIF_VALUE": "Por valor CIF",
+      "BY_FOB_VALUE": "Por valor FOB",
+      "BY_VOLUME": "Por volumen",
+      "BY_WEIGHT": "Por peso",
+      "MANUAL": "Manual"
+    },
+    "columns": {
+      "vehicle": "Vehículo",
+      "cifValue": "Valor CIF",
+      "share": "Participación",
+      "allocated": "Flete asignado"
+    },
+    "residue": "Ajuste de redondeo",
+    "residueNote": "El residuo se asigna para que la suma sea exacta.",
+    "total": "Total",
+    "taxableBaseWarning": "Para la base gravable solo se admite reparto por valor FOB o por peso · Res. 1684 de 2014 CAN"
+  },
+  "trm": {
+    "label": "TRM",
+    "badge": "TRM {value} · {date} · {source}",
+    "source": {
+      "AUTO": "automática",
+      "MANUAL": "manual",
+      "CACHE": "en caché"
+    },
+    "commercial": "TRM comercial (hoy)",
+    "fiscal": "TRM fiscal (último día hábil de la semana anterior)",
+    "stale": "La TRM no se ha actualizado desde {date}"
+  },
+  "timeline": {
+    "title": "Tiempos estimados",
+    "total": "≈ {days} días hábiles",
+    "phases": {
+      "PURCHASE": "Compra",
+      "ORIGIN": "Origen",
+      "OCEAN": "Navegación",
+      "PORT": "Puerto",
+      "NATIONALIZATION": "Nacionalización",
+      "REGISTRATION": "Matrícula"
+    }
+  },
+  "breakdown": {
+    "title": "Desglose detallado",
+    "waterfallTitle": "Composición del costo"
+  },
+  "resolution": {
+    "VALOR": "Verificado",
+    "VALOR_CON_ADVERTENCIA": "Estimado · requiere confirmación",
+    "NO_COTIZABLE": "No cotizable",
+    "ruleNotFound": "No existe regla arancelaria para {hsCode} · {origin} · {motorization} en la fecha proyectada.",
+    "parameterStale": "El parámetro {name} no se verifica desde {date}."
+  },
+  "simulator": {
+    "title": "Simulador de importación",
+    "params": "Parámetros",
+    "sections": {
+      "vehicle": "Vehículo",
+      "origin": "Origen",
+      "freight": "Flete y seguro",
+      "consolidation": "Consolidación",
+      "nationalization": "Nacionalización",
+      "commercial": "Comercial"
+    },
+    "usingDefaults": "usando valores estándar",
+    "originCountry": "País de origen",
+    "entryPort": "Puerto de entrada",
+    "purchasePrice": "Precio de compra (USD)",
+    "auctionFee": "Comisión de subasta o dealer (USD)",
+    "inlandFreight": "Flete terrestre interno (USD)",
+    "exportDocs": "Documentos de exportación (USD)",
+    "transportMode": "Modo de transporte",
+    "containerCost": "Costo del contenedor (USD)",
+    "surcharges": "Recargos (USD)",
+    "insuranceRate": "Tasa de seguro (% sobre FOB + flete)",
+    "modified": "modificado",
+    "reset": "restablecer",
+    "unitsPerContainer": "Vehículos por contenedor",
+    "prorationMethod": "Método de prorrateo",
+    "marginRate": "Margen comercial (%)",
+    "portDays": "Días en puerto",
+    "importerIsEndConsumer": "El comprador es el importador",
+    "importerHint": "Decide si el impoconsumo se causa en la nacionalización o en la venta.",
+    "hasOriginCertificate": "Tiene certificado de origen",
+    "certificateHint": "Sin él no aplica la preferencia arancelaria del TLC.",
+    "containerSplit": "Reparto del contenedor ({count} vehículos)",
+    "columns": {
+      "index": "#",
+      "vehicle": "Vehículo",
+      "cifUsd": "Valor CIF (USD)",
+      "cifCop": "Valor CIF (COP)",
+      "share": "Participación %",
+      "allocated": "Flete asignado (USD)"
+    },
+    "residueNote": "El residuo se asigna a la última unidad para que la suma sea exacta.",
+    "actions": {
+      "pdf": "Descargar propuesta PDF",
+      "save": "Guardar cotización",
+      "email": "Enviar por correo"
+    },
+    "savings": "ahorras {amount}",
+    "notQuotable": "No cotizable en firme",
+    "ceiling": "Techo estimado {amount}",
+    "recalculating": "Recalculando…",
+    "modifiedCount": "{count} modificado(s)",
+    "noRateForMode": "Sin tarifa vigente para esta modalidad en la ruta",
+    "unitsSummary": "{count} vehículos por contenedor",
+    "fromCountry": "desde {country}",
+    "picker": {
+      "change": "Cambiar vehículo",
+      "search": "Buscar por marca, modelo o país",
+      "empty": "Ningún vehículo coincide",
+      "close": "Cerrar"
+    },
+    "regions": {
+      "US": "Estados Unidos",
+      "CN": "China",
+      "AE": "Dubái",
+      "EU": "Europa",
+      "CA": "Canadá"
+    },
+    "modes": {
+      "CONTAINER_40HC": "Contenedor 40' HC",
+      "RORO": "RORO"
+    },
+    "saving": "Guardando…",
+    "saved": "Cotización {reference} guardada",
+    "saveFailed": "No se guardó: {message}",
+    "parametersChanged": "Los parámetros cambiaron mientras cotizabas. Vuelve a calcular antes de guardar.",
+    "noStockForRegion": "Sin unidades disponibles desde este origen",
+    "emailing": "Enviando…",
+    "emailed": "Propuesta enviada a {to}"
+  },
+  "pdf": {
+    "title": "Propuesta de importación",
+    "proposalNumber": "Propuesta N.º",
+    "eyebrow": "IMPORTA CON CONFIANZA",
+    "subtitle": "Una solución integral y transparente para que tengas tu vehículo en Colombia, con todos los costos claros desde el inicio.",
+    "imageNote": "La imagen es de referencia. Puede variar según la versión y el mercado.",
+    "timelineHeading": "Tiempo estimado del proceso",
+    "timelineTotal": "Tiempo total estimado: ≈ {days} días hábiles",
+    "days": "{days} días",
+    "validity": "Esta propuesta es válida hasta el {date}.",
+    "validityNote": "Los tributos y el flete se recalculan con la TRM y las tarifas vigentes a la fecha de la operación.",
+    "trmNote": "TRM aplicada $ {trm} del {date} · Origen: {origin} · {units} vehículos por contenedor",
+    "closing": "Del mundo a tus planes",
+    "website": "www.automocionos.com",
+    "city": "Bogotá, Colombia",
+    "brandTagline": "Vehículos globales. Más cerca de ti.",
+    "pageOf": "Página {page} de {total}",
+    "breakdownSubtitle": "A continuación, se presenta el detalle de costos para la importación del vehículo seleccionado, con base en los parámetros configurados.",
+    "columns": {
+      "concept": "Concepto",
+      "note": "Nota de cálculo",
+      "usd": "Valor (USD)",
+      "cop": "Valor (COP)"
+    },
+    "subtotal": "Subtotal {block}",
+    "total": "TOTAL",
+    "notesTitle": "Notas importantes",
+    "notes": {
+      "one": "Las cifras de tributos son estimaciones basadas en las tarifas vigentes a la fecha de esta propuesta.",
+      "two": "La liquidación definitiva de tributos la determina la autoridad aduanera al momento de la nacionalización.",
+      "three": "Esta cotización no constituye una oferta comercial vinculante. Está sujeta a la disponibilidad del vehículo, variación de la TRM y cambios en las tarifas."
+    },
+    "trust": {
+      "secure": "Proceso seguro y confiable",
+      "advice": "Asesoría en todo el proceso",
+      "transparency": "Transparencia de costos",
+      "support": "Acompañamiento hasta la entrega"
+    },
+    "specs": {
+      "year": "Año",
+      "powertrain": "Motorización",
+      "origin": "Origen",
+      "units": "Por contenedor",
+      "hs": "Subpartida",
+      "range": "Autonomía ({std})",
+      "power": "Potencia",
+      "seats": "Capacidad"
+    }
+  }
+}
