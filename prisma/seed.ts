@@ -645,9 +645,20 @@ async function main() {
   // La contraseña es de DESARROLLO. En producción el usuario se siembra sin
   // ella y se activa por invitación: una credencial conocida y publicada en el
   // repositorio no puede existir en un entorno real.
+  // Un despliegue de DEMOSTRACIÓN corre con NODE_ENV=production pero necesita
+  // que se pueda entrar: sin credenciales el back-office entero queda
+  // inalcanzable y no hay nada que enseñar. `SEED_ADMIN_PASSWORD` es esa puerta,
+  // y es deliberadamente explícita — hay que ponerla a mano en el entorno, así
+  // que un despliegue real jamás la tiene por descuido y sigue sembrándose sin
+  // contraseña, activando las cuentas por invitación.
   const isProduction = process.env.NODE_ENV === "production";
+  const seedPassword = process.env.SEED_ADMIN_PASSWORD;
   const devPassword = "Automocion2026!";
-  const passwordHash = isProduction ? null : await bcrypt.hash(devPassword, 12);
+
+  const effectivePassword = isProduction ? seedPassword : (seedPassword ?? devPassword);
+  const passwordHash = effectivePassword
+    ? await bcrypt.hash(effectivePassword, 12)
+    : null;
 
   const hoursAgo = (h: number) => new Date(Date.now() - h * 60 * 60 * 1000);
   const daysAgo = (n: number) => new Date(Date.now() - n * 24 * 60 * 60 * 1000);
@@ -707,10 +718,13 @@ async function main() {
   }
   console.log(`  usuarios .............. ${TEAM.length}`);
 
-  if (isProduction) {
+  if (effectivePassword === undefined || effectivePassword === null) {
     console.log("  usuario admin ......... sin contraseña (producción: usar invitación)");
+    console.log("                          define SEED_ADMIN_PASSWORD si esto es una demo");
+  } else if (isProduction) {
+    console.log("  usuario admin ......... admin@automocion.os / (SEED_ADMIN_PASSWORD)");
   } else {
-    console.log(`  usuario admin ......... admin@automocion.os / ${devPassword}`);
+    console.log(`  usuario admin ......... admin@automocion.os / ${effectivePassword}`);
   }
 
   console.log("\nSeed completo.");

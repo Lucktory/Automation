@@ -9,9 +9,8 @@ Four documents. Read them in this order.
 | 3 | **[PAGES-SPEC.md](./PAGES-SPEC.md)** | Every one of the 42 screens: purpose, structure, functions, colors, responsive behavior, states — plus the requirement traceability matrix and the four color zones |
 | 4 | **[I18N.md](./I18N.md)** | How Spanish and English both work properly: routing, catalogs, database translation, formatting, SEO, enforcement |
 
-**Status:** plan awaiting approval. Nothing is implemented yet.
-The repository contains only `docs/` and `prisma/schema.draft.prisma` (a working schema
-starting point that M1 completes).
+**Status:** implemented and running. See the root [README](../README.md) for what works
+and what is deliberately still inert, and [DEPLOY.md](./DEPLOY.md) for putting it online.
 
-**Two decisions still open:** the palette (A / B / C) and the scope (all nine milestones, or
-stop after M5).
+**Palette:** A — «Graphite Showroom», en tema claro. Los tokens viven en
+`src/styles/tokens.css` y son la única fuente de color del producto.
