@@ -149,6 +149,46 @@ hacer antes de cada despliegue.
 
 ---
 
+## 5c. Si la aplicación despliega pero no carga
+
+El síntoma es una página que dice **«Application error: a server-side exception
+has occurred»** y un código de dieciséis cifras. Ese mensaje es deliberadamente
+opaco —Next no filtra detalles internos al visitante— y no distingue entre tres
+causas que se arreglan de tres maneras distintas.
+
+**Abre `/api/health`.** Responde las tres preguntas de una vez:
+
+```
+https://<tu-dominio>/api/health
+```
+
+Esa ruta **no pasa por el middleware**, así que sigue contestando aunque lo que
+esté roto sea precisamente la autenticación, que es el caso más común. Nunca
+devuelve el valor de una variable, sólo si está puesta.
+
+| Lo que responde | Qué significa | Qué hacer |
+|---|---|---|
+| `"problem": "MISSING_ENV"` | Falta una de las tres obligatorias | Añádela y **vuelve a desplegar** |
+| `"problem": "NOT_MIGRATED"` | La base responde pero le faltan tablas | `npx prisma migrate deploy` |
+| `"problem": "NOT_SEEDED"` | Las tablas existen y están vacías | `npm run seed:demo` |
+| `"problem": "DATABASE_UNREACHABLE"` | No se pudo consultar | Revisa que uses el endpoint `-pooler` |
+| `"ok": true` con conteos | Todo bien por detrás | El fallo está en otra parte; mira los registros |
+
+### La trampa: las variables no se aplican solas
+
+Definir una variable en el panel del proveedor **no afecta al despliegue que ya
+está corriendo**. Hay que volver a desplegar para que la tome. Es la causa
+número uno de «ya la puse y sigue fallando».
+
+### Por qué suele ser la autenticación
+
+El middleware ejecuta Auth.js en **cada** petición, y Auth.js exige `AUTH_SECRET`
+en producción: sin ella lanza una excepción antes de que se renderice nada, así
+que **todas** las páginas fallan a la vez, incluida la portada. Si el sitio
+entero está caído en lugar de una sola pantalla, empieza por ahí.
+
+---
+
 ## 6. Comprobación después de desplegar
 
 En este orden, porque cada uno descarta una causa distinta:
